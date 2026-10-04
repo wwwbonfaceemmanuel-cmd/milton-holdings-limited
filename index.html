@@ -3,22 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MILTON HOLDINGS LIMITED | Loan Lending Platform</title>
+    <title>MILTON HOLDINGS LIMITED | Modern Loan Platform</title>
     <style>
       :root {
-        --bg: #f6f9ff;
+        --bg: #f5f9ff;
         --panel: #ffffff;
-        --panel-soft: #edf4ff;
-        --primary: #123b87;
-        --primary-2: #0d2f69;
-        --primary-3: #1f58c9;
-        --secondary: #f3b71c;
-        --success: #19a77c;
-        --danger: #d75858;
+        --panel-2: #eef5ff;
+        --primary: #123f8d;
+        --primary-2: #0d2d66;
+        --primary-3: #1d67d6;
+        --secondary: #f3ba2d;
+        --success: #1ba575;
+        --warning: #ffb703;
+        --danger: #d86161;
         --text: #14253d;
-        --muted: #607086;
-        --line: #dfeaf8;
-        --shadow: 0 20px 55px rgba(18, 39, 75, 0.12);
+        --muted: #5e6d82;
+        --line: #dfeaf7;
+        --shadow: 0 20px 55px rgba(11, 30, 62, 0.12);
       }
 
       * { box-sizing: border-box; }
@@ -26,34 +27,34 @@
       body {
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #f9fbff 0%, #edf3ff 100%);
         color: var(--text);
-        background: linear-gradient(180deg, #f7faff 0%, #eef5ff 100%);
       }
       a { text-decoration: none; color: inherit; }
       img { max-width: 100%; display: block; }
       button, input, select, textarea { font: inherit; }
 
       .container {
-        width: min(1200px, calc(100% - 32px));
+        width: min(1200px, calc(100% - 30px));
         margin: 0 auto;
       }
 
       .topbar {
-        background: #071d3c;
+        background: #071d3b;
         color: rgba(255,255,255,0.9);
         font-size: 13px;
       }
       .topbar-inner {
+        min-height: 42px;
         display: flex;
         justify-content: space-between;
-        gap: 20px;
         align-items: center;
-        min-height: 42px;
+        gap: 16px;
         flex-wrap: wrap;
       }
       .top-links {
         display: flex;
-        gap: 18px;
+        gap: 16px;
         flex-wrap: wrap;
       }
 
@@ -61,16 +62,16 @@
         position: sticky;
         top: 0;
         background: rgba(255,255,255,0.88);
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(18,59,135,0.08);
-        z-index: 20;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(18,63,141,0.08);
+        z-index: 50;
       }
       .nav {
+        min-height: 86px;
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        min-height: 84px;
-        gap: 18px;
+        align-items: center;
+        gap: 20px;
       }
       .brand {
         display: flex;
@@ -82,22 +83,22 @@
       .brand-mark {
         width: 52px;
         height: 52px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, var(--primary), var(--primary-3));
         display: grid;
         place-items: center;
-        color: white;
-        box-shadow: 0 14px 30px rgba(18,59,135,0.28);
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-3));
+        color: #fff;
+        box-shadow: 0 14px 28px rgba(18,63,141,0.25);
       }
       .brand-text small {
         display: block;
         font-size: 9px;
         color: var(--muted);
-        letter-spacing: 0.14em;
+        letter-spacing: 0.12em;
       }
       .nav-links {
         display: flex;
-        gap: 20px;
+        gap: 18px;
         flex-wrap: wrap;
         color: var(--muted);
         font-weight: 700;
@@ -112,21 +113,21 @@
       .btn {
         border: none;
         border-radius: 12px;
+        cursor: pointer;
         padding: 13px 20px;
         font-weight: 700;
-        cursor: pointer;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
       .btn:hover { transform: translateY(-1px); }
       .btn-primary {
+        color: #fff;
         background: linear-gradient(135deg, var(--primary), var(--primary-3));
-        color: white;
-        box-shadow: 0 15px 28px rgba(18,59,135,0.22);
+        box-shadow: 0 18px 32px rgba(18,63,141,0.22);
       }
       .btn-secondary {
-        background: rgba(243,183,28,0.12);
+        background: rgba(243,186,45,0.12);
         color: var(--primary-2);
-        border: 1px solid rgba(243,183,28,0.5);
+        border: 1px solid rgba(243,186,45,0.5);
       }
       .btn-light {
         background: white;
@@ -135,40 +136,40 @@
       }
 
       .hero {
-        padding: 72px 0 40px;
+        padding: 68px 0 42px;
       }
       .hero-grid {
         display: grid;
-        grid-template-columns: 1.12fr 0.88fr;
+        grid-template-columns: 1.1fr 0.9fr;
         gap: 28px;
         align-items: center;
       }
       .eyebrow {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        background: rgba(31, 88, 201, 0.08);
-        border: 1px solid rgba(31,88,201,0.12);
-        color: var(--primary);
+        gap: 8px;
         border-radius: 999px;
         padding: 8px 12px;
         font-size: 12px;
         font-weight: 800;
         letter-spacing: 0.08em;
         text-transform: uppercase;
+        color: var(--primary);
+        background: rgba(29,103,214,0.08);
+        border: 1px solid rgba(29,103,214,0.12);
       }
       h1 {
         margin: 18px 0 18px;
-        font-size: clamp(2.5rem, 4.5vw, 4.4rem);
-        line-height: 1.04;
+        font-size: clamp(2.8rem, 5vw, 4.5rem);
+        line-height: 1.02;
         letter-spacing: -0.06em;
       }
       .hero p {
         margin: 0 0 26px;
+        max-width: 620px;
         color: var(--muted);
         font-size: 1.08rem;
-        line-height: 1.75;
-        max-width: 620px;
+        line-height: 1.8;
       }
       .hero-actions {
         display: flex;
@@ -178,57 +179,56 @@
       }
       .stats {
         display: grid;
-        grid-template-columns: repeat(3, minmax(120px, 1fr));
+        grid-template-columns: repeat(3, minmax(120px,1fr));
         gap: 16px;
         max-width: 560px;
       }
       .stat-box {
-        background: rgba(255,255,255,0.8);
+        background: rgba(255,255,255,0.82);
         border: 1px solid var(--line);
         border-radius: 18px;
         padding: 18px 16px;
+        box-shadow: 0 10px 20px rgba(20,37,61,0.04);
       }
       .stat-box strong {
         display: block;
-        font-size: 1.7rem;
-        color: var(--primary);
         margin-bottom: 6px;
+        color: var(--primary);
+        font-size: 1.7rem;
       }
-      .stat-box span {
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
+      .stat-box span { color: var(--muted); font-size: 0.9rem; }
 
       .hero-ui {
-        background: linear-gradient(180deg, #0e2349 0%, #0b1d38 100%);
+        background: linear-gradient(180deg, #0e2247 0%, #0b1831 100%);
         border-radius: 28px;
-        box-shadow: rgba(20, 37, 61, 0.38) 0 22px 56px;
-        padding: 24px;
+        box-shadow: 0 22px 60px rgba(11, 24, 49, 0.35);
         position: relative;
         overflow: hidden;
+        padding: 24px;
       }
       .hero-ui::before {
         content: "";
         position: absolute;
-        width: 240px;
-        height: 240px;
-        background: radial-gradient(circle, rgba(26,167,124,0.25), rgba(26,167,124,0));
-        right: -40px;
-        top: -40px;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(34, 194, 142, 0.25), rgba(34,194,142,0));
+        top: -50px;
+        right: -50px;
       }
       .mini-card {
         position: relative;
         background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
         padding: 18px;
         color: white;
       }
       .mini-card + .mini-card { margin-top: 16px; }
       .mini-top {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
         gap: 12px;
       }
       .tag {
@@ -237,18 +237,18 @@
         border-radius: 999px;
         font-size: 11px;
         font-weight: 800;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.07em;
         text-transform: uppercase;
         background: rgba(255,255,255,0.1);
         border: 1px solid rgba(255,255,255,0.15);
       }
-      .big-metric {
-        margin-top: 18px;
+      .metric {
+        margin-top: 16px;
         font-size: 2.1rem;
         font-weight: 800;
         letter-spacing: -0.05em;
       }
-      .subline {
+      .meta {
         margin-top: 4px;
         color: rgba(255,255,255,0.75);
       }
@@ -257,30 +257,29 @@
         align-items: center;
         gap: 12px;
         margin-top: 18px;
+        color: rgba(255,255,255,0.85);
       }
       .dot {
         width: 10px;
         height: 10px;
         border-radius: 50%;
         background: var(--success);
-        box-shadow: 0 0 0 5px rgba(25,167,124,0.18);
+        box-shadow: 0 0 0 6px rgba(27,165,117,0.15);
       }
 
-      .section {
-        padding: 30px 0 28px;
-      }
+      .section { padding: 34px 0; }
       .section-head {
         display: flex;
         justify-content: space-between;
         align-items: end;
-        gap: 20px;
-        margin-bottom: 22px;
+        gap: 18px;
         flex-wrap: wrap;
+        margin-bottom: 24px;
       }
       .section-head h2 {
         margin: 0;
-        font-size: clamp(1.9rem, 4vw, 3rem);
-        letter-spacing: -0.05em;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.06em;
       }
       .section-head p {
         margin: 8px 0 0;
@@ -301,23 +300,27 @@
       }
       .rate-pill {
         display: inline-block;
-        background: rgba(18,59,135,0.08);
-        color: var(--primary);
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 8px 12px;
         margin-bottom: 12px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-weight: 800;
+        color: var(--primary);
+        background: rgba(18,63,141,0.08);
       }
       .card h3 {
         margin: 0 0 12px;
         font-size: 1.55rem;
       }
-      .card p { margin: 0 0 18px; color: var(--muted); line-height: 1.7; }
+      .card p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
       .card ul {
         margin: 0;
         padding-left: 18px;
         color: var(--muted);
-        line-height: 1.85;
+        line-height: 1.9;
       }
 
       .calculator-wrap,
@@ -348,15 +351,14 @@
       }
       .field label {
         font-weight: 700;
-        color: var(--text);
       }
       .field input,
       .field select,
       .field textarea {
         width: 100%;
-        padding: 12px 14px;
-        border-radius: 12px;
         border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
         background: #f9fbff;
         color: var(--text);
       }
@@ -366,32 +368,40 @@
       }
       .two-col {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0,1fr));
         gap: 16px;
       }
+      .check-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+      .check-row input { width: 18px; height: 18px; }
       .result-box {
-        background: linear-gradient(135deg, rgba(18,59,135,0.05), rgba(31,88,201,0.09));
-        border: 1px solid rgba(18,59,135,0.1);
+        margin-top: 18px;
+        background: linear-gradient(135deg, rgba(18,63,141,0.05), rgba(29,103,214,0.08));
+        border: 1px solid rgba(18,63,141,0.1);
         border-radius: 18px;
         padding: 18px;
-        margin-top: 18px;
       }
       .result-box h4 {
-        margin: 0 0 12px;
+        margin: 0 0 10px;
         color: var(--primary-2);
       }
       .result-row {
         display: flex;
         justify-content: space-between;
-        gap: 12px;
+        gap: 14px;
         padding: 8px 0;
-        border-bottom: 1px solid rgba(18,59,135,0.08);
+        border-bottom: 1px solid rgba(18,63,141,0.08);
       }
       .result-row:last-child { border-bottom: none; }
 
       .modules {
         display: grid;
-        grid-template-columns: repeat(2, minmax(180px,1fr));
+        grid-template-columns: repeat(2, minmax(180px, 1fr));
         gap: 12px;
       }
       .module {
@@ -414,10 +424,10 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(120px,1fr));
         gap: 12px;
-        margin-top: 12px;
+        margin-top: 10px;
       }
       .method {
-        background: linear-gradient(180deg, #fff, #f1f6ff);
+        background: linear-gradient(180deg, #fff, #f2f7ff);
         border: 1px solid var(--line);
         border-radius: 14px;
         padding: 16px 10px;
@@ -425,25 +435,17 @@
         font-weight: 800;
         color: var(--primary-2);
       }
-      .check-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--muted);
-        margin-top: 10px;
-      }
-      .check-row input { width: 18px; height: 18px; }
 
       .footer {
-        background: #071d3c;
-        color: rgba(255,255,255,0.85);
         margin-top: 30px;
+        background: #071d3b;
+        color: rgba(255,255,255,0.85);
         padding: 40px 0;
       }
       .footer-grid {
         display: grid;
         grid-template-columns: 1.5fr 1fr 1fr;
-        gap: 24px;
+        gap: 26px;
       }
       .footer h4 { margin: 0 0 16px; }
       .footer ul {
@@ -468,17 +470,22 @@
         .nav {
           flex-wrap: wrap;
           justify-content: center;
-          padding: 14px 0;
+          padding: 16px 0;
         }
         .nav-links { justify-content: center; }
       }
 
       @media (max-width: 640px) {
         .stats,
-        .modules,
         .two-col,
-        .payment-methods { grid-template-columns: 1fr; }
-        .hero-actions { flex-direction: column; align-items: stretch; }
+        .modules,
+        .payment-methods {
+          grid-template-columns: 1fr;
+        }
+        .hero-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
         .btn { width: 100%; }
       }
     </style>
@@ -486,7 +493,7 @@
   <body>
     <div class="topbar">
       <div class="container topbar-inner">
-        <span>Fast, transparent lending for personal and business growth.</span>
+        <span>Fast, transparent financing for personal and business growth.</span>
         <div class="top-links">
           <a href="#calculator">Calculator</a>
           <a href="#application">Apply</a>
@@ -527,15 +534,15 @@
         <div class="container hero-grid">
           <div>
             <div class="eyebrow">Trusted lending partner</div>
-            <h1>Smart financing for people and businesses.</h1>
+            <h1>Smart loans for people and businesses ready to grow.</h1>
             <p>
-              MILTON HOLDINGS LIMITED helps individuals and growing businesses unlock the capital they need
-              with transparent terms, practical loan support, and a customer-first lending experience.
+              MILTON HOLDINGS LIMITED helps individuals and growing enterprises access flexible funding with clear terms,
+              supportive service, and financial solutions tailored to real life and real business needs.
             </p>
 
             <div class="hero-actions">
               <button class="btn btn-primary">Get started</button>
-              <button class="btn btn-light">Speak with an advisor</button>
+              <button class="btn btn-light">Talk to an advisor</button>
             </div>
 
             <div class="stats">
@@ -557,20 +564,20 @@
           <div class="hero-ui" aria-label="Loan overview panel">
             <div class="mini-card">
               <div class="mini-top">
-                <strong>Personal loan</strong>
+                <strong>Personal Loan</strong>
                 <span class="tag">25% monthly</span>
               </div>
-              <div class="big-metric">Starter loan</div>
-              <div class="subline">Flexible support for daily and urgent needs</div>
+              <div class="metric">Starter loan</div>
+              <div class="meta">Flexible support for everyday needs</div>
             </div>
 
             <div class="mini-card">
               <div class="mini-top">
-                <strong>Business loan</strong>
+                <strong>Business Loan</strong>
                 <span class="tag">50% / 3m</span>
               </div>
-              <div class="big-metric">Nthandizi</div>
-              <div class="subline">Working capital for growth and expansion</div>
+              <div class="metric">Nthandizi</div>
+              <div class="meta">Working capital and growth financing</div>
             </div>
 
             <div class="signal">
@@ -586,7 +593,7 @@
           <div class="section-head">
             <div>
               <h2>Loan types offered</h2>
-              <p>Built for loans that fit real people and real business goals.</p>
+              <p>Flexible financial products built for people, business owners, and ambitious growth plans.</p>
             </div>
           </div>
 
@@ -595,12 +602,12 @@
               <div class="rate-pill">25% Monthly</div>
               <h3>Personal Loan</h3>
               <p>
-                A starter loan designed for salaried workers and individuals who need quick access to funds for emergencies,
-                school fees, travel, or personal milestones.
+                A starter loan created for salaried individuals and self-employed people who need quick funding for emergencies,
+                personal milestones, education, travel, or home support.
               </p>
               <ul>
                 <li>Simple monthly interest</li>
-                <li>Flexible repayment plan</li>
+                <li>Flexible repayment planning</li>
                 <li>Fast review and support</li>
               </ul>
             </article>
@@ -609,13 +616,13 @@
               <div class="rate-pill">50% for 3 Months</div>
               <h3>Business Loan</h3>
               <p>
-                Nthandizi business funding helps entrepreneurs and growing enterprises manage stock, expansion,
-                operations, and short-term working capital with structured support.
+                Nthandizi business funding supports working capital, stock purchases, expansions, seasonal demand, and day-to-day
+                operations for growing enterprises.
               </p>
               <ul>
-                <li>Short-term financing</li>
-                <li>Growth-oriented structure</li>
-                <li>Supportive business partnership</li>
+                <li>Short-term financing support</li>
+                <li>Growth-focused structure</li>
+                <li>Clear business guidance</li>
               </ul>
             </article>
 
@@ -623,13 +630,13 @@
               <div class="rate-pill">Custom Support</div>
               <h3>Tailored Lending</h3>
               <p>
-                We provide practical advice and customer guidance throughout the process, helping clients understand terms,
-                due dates, and financial responsibilities before they apply.
+                We provide practical and transparent guidance throughout the process, helping clients understand the terms, due dates,
+                and repayment responsibilities before applying.
               </p>
               <ul>
-                <li>Dedicated guidance</li>
+                <li>Dedicated support</li>
                 <li>Transparent communication</li>
-                <li>Ongoing support</li>
+                <li>Responsible lending</li>
               </ul>
             </article>
           </div>
@@ -641,7 +648,7 @@
           <div class="section-head">
             <div>
               <h2>Loan calculators</h2>
-              <p>Understand your estimated repayments before confirming your application.</p>
+              <p>Estimate your repayments before confirming your application.</p>
             </div>
           </div>
 
@@ -712,7 +719,7 @@
           <div class="section-head">
             <div>
               <h2>Application forms</h2>
-              <p>Complete a secure application with all required KYC and financial details.</p>
+              <p>Complete a secure application with KYC, employment, business, and loan details.</p>
             </div>
           </div>
 
@@ -844,7 +851,7 @@
 
                 <div class="field">
                   <label>Business details</label>
-                  <textarea placeholder="Describe your business, income source and purpose of financing"></textarea>
+                  <textarea placeholder="Describe the business operations and purpose of funding"></textarea>
                 </div>
 
                 <div class="field">
@@ -859,7 +866,7 @@
 
                 <div class="check-row">
                   <input type="checkbox" id="business-policy" />
-                  <label for="business-policy">I confirm all the information is true and accurate.</label>
+                  <label for="business-policy">I confirm all the information provided is true and accurate.</label>
                 </div>
 
                 <div style="margin-top:20px;">
@@ -875,8 +882,8 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <h2>Dashboard modules</h2>
-              <p>Customer and admin portals built to simplify operations and service delivery.</p>
+              <h2>Dashboards</h2>
+              <p>Modern customer and admin control centers built for monitoring loans efficiently.</p>
             </div>
           </div>
 
@@ -890,26 +897,26 @@
                 <div class="module"><strong>Repayments</strong><span>Track due dates and balances</span></div>
                 <div class="module"><strong>Notifications</strong><span>Automatic system updates</span></div>
                 <div class="module"><strong>Transactions</strong><span>Payments and activity history</span></div>
-                <div class="module"><strong>Statements</strong><span>Detailed financial summaries</span></div>
-                <div class="module"><strong>Loan schedules</strong><span>Repayment calendar and reminders</span></div>
-                <div class="module"><strong>Applications</strong><span>Existing and new loan requests</span></div>
-                <div class="module"><strong>Ask for help</strong><span>AI assistant support</span></div>
+                <div class="module"><strong>Statements</strong><span>Financial summaries</span></div>
+                <div class="module"><strong>Loan schedules</strong><span>Calendar and reminder system</span></div>
+                <div class="module"><strong>Applications</strong><span>New and ongoing loan requests</span></div>
+                <div class="module"><strong>Ask for help</strong><span>AI chat assistant support</span></div>
               </div>
             </div>
 
             <div class="panel">
               <h3>Admin dashboard</h3>
               <div class="modules">
-                <div class="module"><strong>Statistics</strong><span>Portfolio performance snapshot</span></div>
-                <div class="module"><strong>Follow ups</strong><span>Client and application tracking</span></div>
-                <div class="module"><strong>Loan disbursements</strong><span>Approved payouts and status</span></div>
-                <div class="module"><strong>Customer details</strong><span>Profiles and records</span></div>
-                <div class="module"><strong>Notifications</strong><span>Alerts and message center</span></div>
-                <div class="module"><strong>Guarantors</strong><span>Security and reference management</span></div>
-                <div class="module"><strong>System settings</strong><span>Platform controls and rules</span></div>
-                <div class="module"><strong>Reports</strong><span>Operational and financial insights</span></div>
+                <div class="module"><strong>Statistics</strong><span>Portfolio overview</span></div>
+                <div class="module"><strong>Follow ups</strong><span>Application tracking</span></div>
+                <div class="module"><strong>Loan disbursements</strong><span>Approved payouts</span></div>
+                <div class="module"><strong>Customers details</strong><span>Profiles and records</span></div>
+                <div class="module"><strong>Notifications</strong><span>Client and system alerts</span></div>
+                <div class="module"><strong>Guarantors</strong><span>References and security data</span></div>
+                <div class="module"><strong>Reports</strong><span>Operational and financial summaries</span></div>
+                <div class="module"><strong>System settings</strong><span>Platform controls</span></div>
                 <div class="module"><strong>Analytics</strong><span>Daily, weekly, monthly, yearly views</span></div>
-                <div class="module"><strong>AI chat assistant</strong><span>Support and guidance automation</span></div>
+                <div class="module"><strong>AI chat assistant</strong><span>Automated support and queries</span></div>
               </div>
             </div>
           </div>
@@ -921,7 +928,7 @@
           <div class="section-head">
             <div>
               <h2>Repayments</h2>
-              <p>Convenient, secure, and flexible payment channels for every customer.</p>
+              <p>Easy, secure, and flexible repayment options.</p>
             </div>
           </div>
 
@@ -933,9 +940,8 @@
                 <div class="method">AirtelMoney</div>
                 <div class="method">Bank Transfer</div>
               </div>
-
               <p style="margin-top:18px; color: var(--muted); line-height:1.8;">
-                Customers can make repayments through mobile money or secure bank transfers using the approved account details and reference numbers provided after loan approval.
+                Customers can repay through mobile money or secure bank transfer using the account details and reference numbers provided after approval.
               </p>
             </div>
 
@@ -981,17 +987,16 @@
           <div class="panel">
             <h3>Our promise</h3>
             <p style="color: var(--muted); line-height:1.9;">
-              MILTON HOLDINGS LIMITED is committed to responsible lending, secure digital record keeping, and reliable customer service.
-              We combine professionalism with practical support for individuals and businesses seeking transparent financial growth.
+              MILTON HOLDINGS LIMITED is committed to responsible lending, transparent communication, and secure digital service.
+              We work to provide trustworthy financing support for everyday needs and business growth opportunities.
             </p>
-
             <div class="module" style="margin-top:18px;">
               <strong>Live chat support</strong>
-              <span>Available for application guidance and customer assistance</span>
+              <span>Available for application guidance and account support</span>
             </div>
-            <div class="module" style="margin-top:12px;">
+            <div class="module" style="margin-top: 12px;">
               <strong>AI chat assistant</strong>
-              <span>Fast answers for FAQs, loan requirements, and policy details</span>
+              <span>Quick answers about products, requirements, and repayment support</span>
             </div>
           </div>
         </div>
@@ -1001,15 +1006,15 @@
     <footer class="footer">
       <div class="container footer-grid">
         <div>
-          <div class="brand" style="color: white; margin-bottom: 18px;">
+          <div class="brand" style="color: white; margin-bottom: 16px;">
             <div class="brand-mark">M</div>
             <div class="brand-text">
               <span>MILTON HOLDINGS</span>
               <small>LIMITED</small>
             </div>
           </div>
-          <p style="line-height:1.8; color: rgba(255,255,255,0.72); max-width: 440px;">
-            Professional lending support for personal growth, enterprise expansion, and long-term financial confidence.
+          <p style="color: rgba(255,255,255,0.72); line-height:1.8; max-width:430px;">
+            Delivering reliable lending solutions for personal goals, business expansion, and long-term financial stability.
           </p>
         </div>
 
@@ -1018,7 +1023,7 @@
           <ul>
             <li>Home</li>
             <li>Loans</li>
-            <li>Calculator</li>
+            <li>Calculators</li>
             <li>Applications</li>
           </ul>
         </div>
