@@ -1,1122 +1,3103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MILTON HOLDINGS LIMITED | Smart Lending</title>
-    <style>
-      :root {
-        --bg: #f4f8ff;
-        --panel: #ffffff;
-        --panel-soft: #edf4ff;
-        --primary: #133d8d;
-        --primary-2: #0c2b62;
-        --primary-3: #1e6ae8;
-        --secondary: #f3ba2a;
-        --success: #1aa77c;
-        --danger: #d75e5e;
-        --text: #12253e;
-        --muted: #5f7187;
-        --line: #dfeaf6;
-        --shadow: 0 22px 62px rgba(12, 32, 66, 0.12);
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#133d8d">
+
+  <title>MILTON HOLDINGS LIMITED | Smart Lending</title>
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --primary:#133d8d;
+      --primary-2:#0b2e70;
+      --primary-3:#1e6ae8;
+      --secondary:#f3ba2a;
+      --secondary-2:#d89d00;
+      --success:#159957;
+      --danger:#d93025;
+      --dark:#101828;
+      --text:#344054;
+      --muted:#667085;
+      --light:#f5f8fc;
+      --white:#ffffff;
+      --border:#e4e7ec;
+      --shadow:0 10px 30px rgba(16,24,40,.08);
+      --radius:18px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:#fff;
+      line-height:1.6;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    img{
+      max-width:100%;
+    }
+
+    .container{
+      width:min(1180px,92%);
+      margin:auto;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(255,255,255,.97);
+      border-bottom:1px solid var(--border);
+      box-shadow:0 3px 15px rgba(0,0,0,.05);
+    }
+
+    .header-inner{
+      min-height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:max-content;
+    }
+
+    .logo{
+      width:48px;
+      height:48px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,var(--primary),var(--primary-3));
+      color:#fff;
+      font-weight:900;
+      font-size:18px;
+      box-shadow:0 8px 20px rgba(19,61,141,.25);
+    }
+
+    .brand-text strong{
+      display:block;
+      color:var(--primary);
+      font-size:16px;
+      letter-spacing:.3px;
+    }
+
+    .brand-text span{
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    nav a{
+      color:var(--dark);
+      font-size:14px;
+      font-weight:700;
+      transition:.2s;
+    }
+
+    nav a:hover{
+      color:var(--primary-3);
+    }
+
+    .header-actions{
+      display:flex;
+      gap:9px;
+      align-items:center;
+    }
+
+    .btn{
+      border:0;
+      padding:12px 18px;
+      border-radius:10px;
+      font-weight:800;
+      transition:.2s;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .btn-primary:hover{
+      background:var(--primary-2);
+    }
+
+    .btn-secondary{
+      background:var(--secondary);
+      color:#111;
+    }
+
+    .btn-outline{
+      background:#fff;
+      color:var(--primary);
+      border:1px solid var(--primary);
+    }
+
+    .btn-danger{
+      background:var(--danger);
+      color:#fff;
+    }
+
+    .btn-success{
+      background:var(--success);
+      color:#fff;
+    }
+
+    /* HERO */
+    .hero{
+      background:
+        radial-gradient(circle at 85% 20%,rgba(30,106,232,.28),transparent 30%),
+        linear-gradient(135deg,#071c43,#133d8d 55%,#1e6ae8);
+      color:#fff;
+      padding:90px 0 80px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:50px;
+      align-items:center;
+    }
+
+    .hero h1{
+      font-size:clamp(38px,5vw,64px);
+      line-height:1.08;
+      margin-bottom:20px;
+    }
+
+    .hero h1 span{
+      color:var(--secondary);
+    }
+
+    .hero p{
+      font-size:18px;
+      color:#e6edff;
+      max-width:680px;
+      margin-bottom:28px;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .hero-card{
+      background:rgba(255,255,255,.11);
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:24px;
+      padding:30px;
+      backdrop-filter:blur(12px);
+      box-shadow:0 20px 50px rgba(0,0,0,.15);
+    }
+
+    .hero-card h3{
+      margin-bottom:18px;
+    }
+
+    .hero-stat{
+      display:flex;
+      justify-content:space-between;
+      padding:13px 0;
+      border-bottom:1px solid rgba(255,255,255,.15);
+    }
+
+    .hero-stat:last-child{
+      border-bottom:0;
+    }
+
+    /* SECTIONS */
+    section{
+      padding:75px 0;
+    }
+
+    .section-head{
+      text-align:center;
+      margin-bottom:40px;
+    }
+
+    .section-head h2{
+      font-size:34px;
+      color:var(--dark);
+      margin-bottom:10px;
+    }
+
+    .section-head p{
+      color:var(--muted);
+      max-width:700px;
+      margin:auto;
+    }
+
+    /* CARDS */
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:25px;
+      box-shadow:var(--shadow);
+    }
+
+    .loan-card{
+      position:relative;
+      overflow:hidden;
+    }
+
+    .loan-card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:5px;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+    }
+
+    .icon{
+      width:54px;
+      height:54px;
+      border-radius:15px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#edf4ff;
+      color:var(--primary);
+      font-size:25px;
+      margin-bottom:18px;
+    }
+
+    .loan-card h3{
+      color:var(--dark);
+      margin-bottom:8px;
+    }
+
+    .loan-card p{
+      color:var(--muted);
+      margin-bottom:16px;
+    }
+
+    .rate{
+      display:inline-block;
+      padding:6px 10px;
+      background:#fff7df;
+      color:#8a6200;
+      border-radius:8px;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    /* CALCULATORS */
+    .calculator-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+    }
+
+    .calculator{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .calculator h3{
+      color:var(--primary);
+      margin-bottom:20px;
+    }
+
+    .field{
+      margin-bottom:16px;
+    }
+
+    .field label{
+      display:block;
+      margin-bottom:7px;
+      color:var(--dark);
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      padding:13px 14px;
+      border:1px solid #d0d5dd;
+      border-radius:10px;
+      outline:none;
+      background:#fff;
+    }
+
+    .field textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus{
+      border-color:var(--primary-3);
+      box-shadow:0 0 0 3px rgba(30,106,232,.1);
+    }
+
+    .result{
+      margin-top:20px;
+      background:#f4f8ff;
+      border:1px solid #dbe7ff;
+      border-radius:13px;
+      padding:18px;
+    }
+
+    .result strong{
+      display:block;
+      color:var(--primary);
+      font-size:24px;
+      margin-top:4px;
+    }
+
+    /* FORMS */
+    .form-section{
+      background:var(--light);
+    }
+
+    .form-container{
+      max-width:900px;
+      margin:auto;
+      background:#fff;
+      padding:32px;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+
+    .form-tabs{
+      display:flex;
+      gap:10px;
+      margin-bottom:28px;
+    }
+
+    .form-tab{
+      flex:1;
+      padding:13px;
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:10px;
+      font-weight:800;
+      color:var(--primary);
+    }
+
+    .form-tab.active{
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 18px;
+    }
+
+    .full{
+      grid-column:1/-1;
+    }
+
+    .checkbox-row{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin:15px 0;
+      color:var(--text);
+      font-size:14px;
+    }
+
+    .checkbox-row input{
+      margin-top:5px;
+    }
+
+    /* DASHBOARD */
+    .dashboard{
+      background:#f7f9fc;
+    }
+
+    .dashboard-grid{
+      display:grid;
+      grid-template-columns:250px 1fr;
+      gap:22px;
+    }
+
+    .sidebar{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      height:max-content;
+      position:sticky;
+      top:95px;
+    }
+
+    .sidebar h3{
+      color:var(--primary);
+      margin-bottom:15px;
+      padding-bottom:15px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .sidebar a{
+      display:block;
+      padding:10px 12px;
+      border-radius:9px;
+      color:var(--text);
+      font-weight:700;
+      font-size:14px;
+      margin-bottom:4px;
+    }
+
+    .sidebar a:hover{
+      background:#edf4ff;
+      color:var(--primary);
+    }
+
+    .dashboard-content{
+      min-width:0;
+    }
+
+    .welcome-box{
+      background:linear-gradient(135deg,var(--primary),var(--primary-3));
+      color:#fff;
+      border-radius:20px;
+      padding:28px;
+      margin-bottom:22px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-bottom:22px;
+    }
+
+    .stat-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:15px;
+      padding:20px;
+    }
+
+    .stat-card small{
+      color:var(--muted);
+    }
+
+    .stat-card strong{
+      display:block;
+      color:var(--primary);
+      font-size:25px;
+      margin-top:5px;
+    }
+
+    .dashboard-panels{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px;
+    }
+
+    .panel h3{
+      color:var(--dark);
+      margin-bottom:14px;
+    }
+
+    .module-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .module{
+      background:#f7f9fc;
+      padding:12px;
+      border-radius:9px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    /* PAYMENTS */
+    .payment-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .payment-card{
+      border:1px solid var(--border);
+      padding:25px;
+      border-radius:18px;
+      text-align:center;
+      background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .payment-card h3{
+      color:var(--primary);
+      margin:10px 0;
+    }
+
+    /* CONTACT */
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+    }
+
+    .contact-info{
+      background:var(--primary);
+      color:#fff;
+      border-radius:20px;
+      padding:32px;
+    }
+
+    .contact-item{
+      padding:15px 0;
+      border-bottom:1px solid rgba(255,255,255,.15);
+    }
+
+    .contact-item:last-child{
+      border-bottom:0;
+    }
+
+    /* FOOTER */
+    footer{
+      background:#07152f;
+      color:#dce6fa;
+      padding:40px 0 25px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr;
+      gap:30px;
+      margin-bottom:30px;
+    }
+
+    footer h3,
+    footer h4{
+      color:#fff;
+      margin-bottom:12px;
+    }
+
+    footer p,
+    footer li{
+      color:#aebbd3;
+      font-size:14px;
+    }
+
+    footer ul{
+      list-style:none;
+    }
+
+    footer li{
+      margin-bottom:8px;
+    }
+
+    .copyright{
+      border-top:1px solid rgba(255,255,255,.1);
+      padding-top:20px;
+      text-align:center;
+      color:#91a0bb;
+      font-size:13px;
+    }
+
+    /* AUTH MODAL */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(5,15,35,.72);
+      z-index:5000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      overflow:auto;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .modal-box{
+      width:min(480px,100%);
+      background:#fff;
+      border-radius:22px;
+      padding:30px;
+      position:relative;
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+    }
+
+    .modal-close{
+      position:absolute;
+      right:16px;
+      top:13px;
+      width:36px;
+      height:36px;
+      border:0;
+      border-radius:50%;
+      background:#f2f4f7;
+      font-size:22px;
+    }
+
+    .modal-logo{
+      width:58px;
+      height:58px;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--primary),var(--primary-3));
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      margin:0 auto 12px;
+    }
+
+    .modal-title{
+      text-align:center;
+      color:var(--primary);
+      margin-bottom:5px;
+    }
+
+    .modal-subtitle{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:24px;
+    }
+
+    .auth-message{
+      display:none;
+      padding:12px;
+      border-radius:10px;
+      margin-bottom:15px;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .auth-message.error{
+      display:block;
+      background:#fff0ef;
+      color:#b42318;
+      border:1px solid #fecdca;
+    }
+
+    .auth-message.success{
+      display:block;
+      background:#ecfdf3;
+      color:#067647;
+      border:1px solid #abefc6;
+    }
+
+    .auth-switch{
+      text-align:center;
+      margin-top:18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .auth-switch button{
+      border:0;
+      background:none;
+      color:var(--primary-3);
+      font-weight:800;
+    }
+
+    /* TOAST */
+    .toast{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:6000;
+      min-width:280px;
+      max-width:420px;
+      background:#101828;
+      color:#fff;
+      padding:15px 18px;
+      border-radius:12px;
+      box-shadow:0 15px 40px rgba(0,0,0,.2);
+      display:none;
+    }
+
+    .toast.show{
+      display:block;
+    }
+
+    /* MOBILE */
+    .mobile-menu{
+      display:none;
+      border:1px solid var(--border);
+      background:#fff;
+      width:42px;
+      height:42px;
+      border-radius:9px;
+      font-size:20px;
+    }
+
+    @media(max-width:1050px){
+      nav{
+        display:none;
       }
 
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        color: var(--text);
-        background: linear-gradient(180deg, #f9fbff 0%, #edf3ff 100%);
-      }
-      a { text-decoration: none; color: inherit; }
-      img { max-width: 100%; display: block; }
-      button, input, select, textarea { font: inherit; }
-
-      .container {
-        width: min(1200px, calc(100% - 30px));
-        margin: 0 auto;
+      .mobile-menu{
+        display:block;
       }
 
-      .topbar {
-        background: #071b3a;
-        color: rgba(255,255,255,0.9);
-        font-size: 13px;
-      }
-      .topbar-inner {
-        min-height: 42px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 18px;
-        flex-wrap: wrap;
-      }
-      .top-links {
-        display: flex;
-        gap: 18px;
-        flex-wrap: wrap;
+      .header-inner{
+        flex-wrap:wrap;
       }
 
-      .header {
-        position: sticky;
-        top: 0;
-        background: rgba(255,255,255,0.88);
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(17, 54, 120, 0.08);
-        z-index: 50;
-      }
-      .nav {
-        min-height: 84px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 800;
-        letter-spacing: 0.04em;
-      }
-      .brand-mark {
-        width: 52px;
-        height: 52px;
-        display: grid;
-        place-items: center;
-        border-radius: 16px;
-        background: linear-gradient(135deg, var(--primary), var(--primary-3));
-        color: white;
-        box-shadow: 0 14px 28px rgba(19,61,141,0.25);
-      }
-      .brand-text small {
-        display: block;
-        font-size: 9px;
-        color: var(--muted);
-        letter-spacing: 0.14em;
-      }
-      .nav-links {
-        display: flex;
-        gap: 18px;
-        flex-wrap: wrap;
-        color: var(--muted);
-        font-weight: 700;
-      }
-      .nav-links a:hover { color: var(--primary); }
-      .nav-actions { display: flex; gap: 12px; align-items: center; }
-
-      .btn {
-        border: none;
-        border-radius: 12px;
-        padding: 13px 20px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-      .btn:hover { transform: translateY(-1px); }
-      .btn-primary {
-        color: #fff;
-        background: linear-gradient(135deg, var(--primary), var(--primary-3));
-        box-shadow: 0 18px 30px rgba(18, 61, 141, 0.22);
-      }
-      .btn-secondary {
-        color: var(--primary-2);
-        background: rgba(243,186,42,0.12);
-        border: 1px solid rgba(243,186,42,0.5);
-      }
-      .btn-light {
-        background: white;
-        color: var(--primary);
-        border: 1px solid var(--line);
+      .mobile-nav{
+        display:none;
+        width:100%;
+        padding:10px 0 15px;
       }
 
-      .hero {
-        padding: 70px 0 35px;
-      }
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 28px;
-        align-items: center;
-      }
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border-radius: 999px;
-        padding: 8px 12px;
-        background: rgba(30,106,232,0.08);
-        border: 1px solid rgba(30,106,232,0.12);
-        color: var(--primary);
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      h1 {
-        margin: 18px 0 18px;
-        font-size: clamp(2.8rem, 5vw, 4.5rem);
-        line-height: 1.02;
-        letter-spacing: -0.06em;
-      }
-      .hero p {
-        margin: 0 0 26px;
-        max-width: 620px;
-        color: var(--muted);
-        font-size: 1.08rem;
-        line-height: 1.8;
-      }
-      .hero-actions {
-        display: flex;
-        gap: 14px;
-        flex-wrap: wrap;
-        margin-bottom: 24px;
-      }
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(120px, 1fr));
-        gap: 16px;
-        max-width: 560px;
-      }
-      .stat-box {
-        background: rgba(255,255,255,0.78);
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 18px 16px;
-        box-shadow: 0 10px 20px rgba(20,37,61,0.04);
-      }
-      .stat-box strong {
-        display: block;
-        color: var(--primary);
-        font-size: 1.7rem;
-        margin-bottom: 5px;
-      }
-      .stat-box span { color: var(--muted); font-size: 0.9rem; }
-
-      .hero-ui {
-        background: linear-gradient(180deg, #0e2247 0%, #0b1831 100%);
-        border-radius: 28px;
-        box-shadow: 0 22px 60px rgba(11, 24, 49, 0.35);
-        position: relative;
-        overflow: hidden;
-        padding: 24px;
-      }
-      .hero-ui::before {
-        content: "";
-        position: absolute;
-        width: 260px;
-        height: 260px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(26, 167, 124, 0.22), rgba(26, 167, 124, 0));
-        top: -50px;
-        right: -50px;
-      }
-      .mini-card {
-        position: relative;
-        z-index: 1;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 20px;
-        padding: 18px;
-        color: white;
-      }
-      .mini-card + .mini-card { margin-top: 16px; }
-      .mini-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-      }
-      .tag {
-        display: inline-block;
-        padding: 7px 10px;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.12);
-      }
-      .metric {
-        margin-top: 14px;
-        font-size: 2.1rem;
-        font-weight: 800;
-        letter-spacing: -0.05em;
-      }
-      .meta {
-        margin-top: 4px;
-        color: rgba(255,255,255,0.75);
-      }
-      .signal {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 18px;
-        color: rgba(255,255,255,0.85);
-      }
-      .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--success);
-        box-shadow: 0 0 0 6px rgba(26, 167, 124, 0.18);
+      .mobile-nav.show{
+        display:block;
       }
 
-      .section { padding: 34px 0; }
-      .section-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 22px;
-      }
-      .section-head h2 {
-        margin: 0;
-        font-size: clamp(2rem, 4vw, 3rem);
-        letter-spacing: -0.06em;
-      }
-      .section-head p {
-        margin: 8px 0 0;
-        color: var(--muted);
+      .mobile-nav a{
+        display:block;
+        padding:10px 0;
+        font-weight:700;
       }
 
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(220px,1fr));
-        gap: 22px;
-      }
-      .card {
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: 24px;
-        box-shadow: var(--shadow);
-      }
-      .rate-pill {
-        display: inline-block;
-        margin-bottom: 12px;
-        padding: 8px 12px;
-        border-radius: 10px;
-        color: var(--primary);
-        font-weight: 800;
-        background: rgba(19,61,141,0.08);
-      }
-      .card h3 {
-        margin: 0 0 12px;
-        font-size: 1.55rem;
-      }
-      .card p {
-        margin: 0 0 18px;
-        color: var(--muted);
-        line-height: 1.7;
-      }
-      .card ul {
-        margin: 0;
-        padding-left: 18px;
-        color: var(--muted);
-        line-height: 1.9;
+      .hero-grid{
+        grid-template-columns:1fr;
       }
 
-      .highlight-band {
-        background: linear-gradient(135deg, #091f3d, #102d5d 55%, #123d8e); 
-        border-radius: 28px;
-        padding: 26px;
-        color: white;
-        box-shadow: var(--shadow);
-      }
-      .highlight-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(120px,1fr));
-        gap: 14px;
-      }
-      .highlight-item {
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 18px;
-        padding: 18px 16px;
-      }
-      .highlight-item strong {
-        display: block;
-        font-size: 1.7rem;
-        letter-spacing: -0.05em;
-      }
-      .highlight-item span {
-        color: rgba(255,255,255,0.75);
-        font-size: 0.9rem;
+      .cards{
+        grid-template-columns:1fr 1fr;
       }
 
-      .calculator-wrap,
-      .application-wrap,
-      .dashboard-wrap,
-      .payment-wrap,
-      .contact-wrap {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-      }
-      .panel {
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 26px;
-        padding: 22px;
-        box-shadow: var(--shadow);
-      }
-      .panel h3 {
-        margin: 0 0 18px;
-        font-size: 1.45rem;
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-      .field label {
-        font-weight: 700;
-      }
-      .field input,
-      .field select,
-      .field textarea {
-        width: 100%;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 12px 14px;
-        background: #f9fbff;
-        color: var(--text);
-      }
-      .field textarea { min-height: 110px; resize: vertical; }
-      .two-col {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0,1fr));
-        gap: 16px;
-      }
-      .check-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--muted);
-        margin-top: 10px;
-      }
-      .check-row input { width: 18px; height: 18px; }
-      .result-box {
-        margin-top: 18px;
-        background: linear-gradient(135deg, rgba(18,63,141,0.05), rgba(29,106,232,0.08));
-        border: 1px solid rgba(18,63,141,0.1);
-        border-radius: 18px;
-        padding: 18px;
-      }
-      .result-box h4 {
-        margin: 0 0 10px;
-        color: var(--primary-2);
-      }
-      .result-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 8px 0;
-        border-bottom: 1px solid rgba(18,63,141,0.08);
-      }
-      .result-row:last-child { border-bottom: none; }
-
-      .modules {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(180px, 1fr));
-        gap: 12px;
-      }
-      .module {
-        background: linear-gradient(180deg, #f9fbff, #edf4ff);
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        padding: 18px 16px;
-      }
-      .module strong {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--primary-2);
-      }
-      .module span {
-        color: var(--muted);
-        font-size: 0.9rem;
+      .dashboard-grid{
+        grid-template-columns:1fr;
       }
 
-      .payment-methods {
-        margin-top: 10px;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(120px,1fr));
-        gap: 12px;
+      .sidebar{
+        position:static;
       }
-      .method {
-        background: linear-gradient(180deg, #fff, #f1f6ff);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 16px 10px;
-        text-align: center;
-        font-weight: 800;
-        color: var(--primary-2);
+    }
+
+    @media(max-width:760px){
+      section{
+        padding:55px 0;
       }
 
-      .footer {
-        margin-top: 30px;
-        background: #071d3b;
-        color: rgba(255,255,255,0.85);
-        padding: 40px 0;
-      }
-      .footer-grid {
-        display: grid;
-        grid-template-columns: 1.5fr 1fr 1fr;
-        gap: 28px;
-      }
-      .footer h4 { margin: 0 0 16px; }
-      .footer ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        line-height: 2;
-        color: rgba(255,255,255,0.72);
+      .header-actions .btn{
+        padding:9px 12px;
+        font-size:12px;
       }
 
-      @media (max-width: 980px) {
-        .hero-grid,
-        .cards,
-        .highlight-grid,
-        .calculator-wrap,
-        .application-wrap,
-        .dashboard-wrap,
-        .payment-wrap,
-        .contact-wrap,
-        .footer-grid {
-          grid-template-columns: 1fr;
-        }
-        .nav {
-          flex-wrap: wrap;
-          justify-content: center;
-          padding: 16px 0;
-        }
-        .nav-links { justify-content: center; }
+      .brand-text strong{
+        font-size:13px;
       }
 
-      @media (max-width: 640px) {
-        .stats,
-        .two-col,
-        .modules,
-        .payment-methods {
-          grid-template-columns: 1fr;
-        }
-        .hero-actions {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .btn { width: 100%; }
+      .brand-text span{
+        display:none;
       }
-    </style>
-  </head>
-  <body>
-    <div class="topbar">
-      <div class="container topbar-inner">
-        <span>Fast, transparent funding for real people and thriving businesses.</span>
-        <div class="top-links">
-          <a href="#calculator">Calculator</a>
-          <a href="#application">Apply</a>
-          <a href="#dashboard">Dashboard</a>
+
+      .logo{
+        width:42px;
+        height:42px;
+      }
+
+      .cards,
+      .calculator-grid,
+      .payment-grid,
+      .contact-grid,
+      .footer-grid,
+      .dashboard-panels,
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .full{
+        grid-column:auto;
+      }
+
+      .form-container{
+        padding:20px;
+      }
+
+      .module-list{
+        grid-template-columns:1fr;
+      }
+
+      .hero{
+        padding:65px 0;
+      }
+
+      .hero h1{
+        font-size:40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ========================= HEADER ========================= -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+
+      <a href="#home" class="brand">
+        <div class="logo">MH</div>
+        <div class="brand-text">
+          <strong>MILTON HOLDINGS LIMITED</strong>
+          <span>Smart Lending & Financial Services</span>
         </div>
+      </a>
+
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#loans">Loans</a>
+        <a href="#calculators">Calculators</a>
+        <a href="#application">Application</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#repayments">Repayments</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="loginButton" onclick="openAuthModal()">
+          Login
+        </button>
+
+        <button class="btn btn-primary" onclick="openAuthModal('register')">
+          Apply now
+        </button>
+
+        <button class="mobile-menu" onclick="toggleMobileMenu()">☰</button>
       </div>
     </div>
 
-    <header class="header">
-      <div class="container nav">
-        <div class="brand">
-          <div class="brand-mark">M</div>
-          <div class="brand-text">
-            <span>MILTON HOLDINGS</span>
-            <small>LIMITED</small>
-          </div>
-        </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#home" onclick="toggleMobileMenu()">Home</a>
+      <a href="#loans" onclick="toggleMobileMenu()">Loans</a>
+      <a href="#calculators" onclick="toggleMobileMenu()">Calculators</a>
+      <a href="#application" onclick="toggleMobileMenu()">Application</a>
+      <a href="#dashboard" onclick="toggleMobileMenu()">Dashboard</a>
+      <a href="#repayments" onclick="toggleMobileMenu()">Repayments</a>
+      <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+    </div>
+  </div>
+</header>
 
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="#home">Home</a>
-          <a href="#loans">Loans</a>
-          <a href="#calculator">Calculators</a>
-          <a href="#application">Application</a>
-          <a href="#dashboard">Dashboard</a>
-          <a href="#repayments">Repayments</a>
-          <a href="#contact">Contact</a>
-        </nav>
 
-        <div class="nav-actions">
-          <button class="btn btn-secondary">Login</button>
-          <button class="btn btn-primary">Apply now</button>
+<!-- ========================= HERO ========================= -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-grid">
+
+      <div>
+        <h1>
+          Smart Loans for a
+          <span>Better Future</span>
+        </h1>
+
+        <p>
+          Welcome to MILTON HOLDINGS LIMITED. Access convenient
+          personal and business lending services with a simple,
+          transparent and modern digital experience.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#application" class="btn btn-secondary">
+            Apply for a Loan
+          </a>
+
+          <a href="#calculators" class="btn btn-outline">
+            Calculate Loan
+          </a>
         </div>
       </div>
-    </header>
 
-    <main id="home">
-      <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <div class="eyebrow">Trusted lending partner</div>
-            <h1>Smart financing for people and businesses ready to grow.</h1>
-            <p>
-              MILTON HOLDINGS LIMITED helps individuals and enterprises access flexible funding with clear terms,
-              supportive service, and practical financial solutions designed for real-world needs.
-            </p>
+      <div class="hero-card">
+        <h3>Our Lending Services</h3>
 
-            <div class="hero-actions">
-              <button class="btn btn-primary">Get started</button>
-              <button class="btn btn-light">Talk to an advisor</button>
-            </div>
-
-            <div class="stats">
-              <div class="stat-box">
-                <strong>1.2K+</strong>
-                <span>Clients supported</span>
-              </div>
-              <div class="stat-box">
-                <strong>48H</strong>
-                <span>Fast approval</span>
-              </div>
-              <div class="stat-box">
-                <strong>99%</strong>
-                <span>Client satisfaction</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-ui" aria-label="Loan overview panel">
-            <div class="mini-card">
-              <div class="mini-top">
-                <strong>Personal Loan</strong>
-                <span class="tag">25% monthly</span>
-              </div>
-              <div class="metric">Starter loan</div>
-              <div class="meta">Flexible support for everyday needs</div>
-            </div>
-
-            <div class="mini-card">
-              <div class="mini-top">
-                <strong>Business Loan</strong>
-                <span class="tag">50% / 3m</span>
-              </div>
-              <div class="metric">Nthandizi</div>
-              <div class="meta">Working capital and growth financing</div>
-            </div>
-
-            <div class="signal">
-              <span class="dot"></span>
-              <span>Application review in progress</span>
-            </div>
-          </div>
+        <div class="hero-stat">
+          <span>Personal Loan</span>
+          <strong>Starter Loan</strong>
         </div>
-      </section>
 
-      <section class="section" id="loans">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Loan types offered</h2>
-              <p>Flexible loan products designed for personal needs and business growth.</p>
-            </div>
-          </div>
-
-          <div class="cards">
-            <article class="card">
-              <div class="rate-pill">25% Monthly</div>
-              <h3>Personal Loan</h3>
-              <p>
-                A starter loan for salaried individuals and self-employed professionals who need quick access to funds for emergencies,
-                education, travel, or everyday financial support.
-              </p>
-              <ul>
-                <li>Simple monthly interest</li>
-                <li>Flexible repayment plan</li>
-                <li>Fast review and support</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <div class="rate-pill">50% for 3 Months</div>
-              <h3>Business Loan</h3>
-              <p>
-                Nthandizi business funding helps entrepreneurs and growing enterprises manage expansion, stock purchases,
-                operations, and short-term working capital needs.
-              </p>
-              <ul>
-                <li>Short-term business support</li>
-                <li>Growth-focused structure</li>
-                <li>Clear business guidance</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <div class="rate-pill">Custom Support</div>
-              <h3>Tailored Lending</h3>
-              <p>
-                We provide transparent communication and practical guidance throughout the process so every client understands the loan,
-                terms, and repayment expectations before proceeding.
-              </p>
-              <ul>
-                <li>Dedicated support</li>
-                <li>Transparent communication</li>
-                <li>Responsible lending</li>
-              </ul>
-            </article>
-          </div>
+        <div class="hero-stat">
+          <span>Personal Rate</span>
+          <strong>25% Monthly</strong>
         </div>
-      </section>
 
-      <section class="section">
-        <div class="container">
-          <div class="highlight-band">
-            <div class="highlight-grid">
-              <div class="highlight-item">
-                <strong>1.2K+</strong>
-                <span>Clients served</span>
-              </div>
-              <div class="highlight-item">
-                <strong>48H</strong>
-                <span>Average review time</span>
-              </div>
-              <div class="highlight-item">
-                <strong>99%</strong>
-                <span>Customer satisfaction</span>
-              </div>
-              <div class="highlight-item">
-                <strong>24/7</strong>
-                <span>Support access</span>
-              </div>
-            </div>
-          </div>
+        <div class="hero-stat">
+          <span>Business Loan</span>
+          <strong>Nthandizi</strong>
         </div>
-      </section>
 
-      <section class="section" id="calculator">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Loan calculators</h2>
-              <p>Estimate repayments before you apply.</p>
-            </div>
-          </div>
-
-          <div class="calculator-wrap">
-            <div class="panel">
-              <h3>Personal loan calculator</h3>
-              <div class="field">
-                <label for="personal-amount">Loan amount (MWK)</label>
-                <input id="personal-amount" type="number" value="500000" min="1000" step="1000" />
-              </div>
-              <div class="field">
-                <label for="personal-months">Loan period (months)</label>
-                <input id="personal-months" type="number" value="12" min="1" max="60" />
-              </div>
-              <button class="btn btn-primary" onclick="calculatePersonalLoan()">Calculate</button>
-
-              <div class="result-box">
-                <h4>Estimated result</h4>
-                <div class="result-row">
-                  <span>Monthly interest</span>
-                  <strong id="personal-interest">MWK 125,000</strong>
-                </div>
-                <div class="result-row">
-                  <span>Total payable</span>
-                  <strong id="personal-total">MWK 1,250,000</strong>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel">
-              <h3>Business loan calculator</h3>
-              <div class="field">
-                <label for="business-amount">Loan amount (MWK)</label>
-                <input id="business-amount" type="number" value="1000000" min="1000" step="1000" />
-              </div>
-              <div class="field">
-                <label for="business-months">Loan term</label>
-                <select id="business-months">
-                  <option value="3">3 months</option>
-                  <option value="6">6 months</option>
-                  <option value="12">12 months</option>
-                </select>
-              </div>
-              <button class="btn btn-primary" onclick="calculateBusinessLoan()">Calculate</button>
-
-              <div class="result-box">
-                <h4>Estimated result</h4>
-                <div class="result-row">
-                  <span>Quoted rate</span>
-                  <strong id="business-rate">50% over 3 months</strong>
-                </div>
-                <div class="result-row">
-                  <span>Amount due</span>
-                  <strong id="business-total">MWK 1,500,000</strong>
-                </div>
-                <div class="result-row">
-                  <span>Equivalent monthly</span>
-                  <strong id="business-monthly">MWK 500,000</strong>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="hero-stat">
+          <span>Business Rate</span>
+          <strong>50% / 3 Months</strong>
         </div>
-      </section>
+      </div>
 
-      <section class="section" id="application">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Application forms</h2>
-              <p>Complete a secure application with all required KYC and financial details.</p>
-            </div>
-          </div>
+    </div>
+  </div>
+</section>
 
-          <div class="application-wrap">
-            <div class="panel">
-              <h3>Personal loan application</h3>
-              <form>
-                <div class="two-col">
-                  <div class="field">
-                    <label>Full names</label>
-                    <input type="text" placeholder="Enter full legal name" />
-                  </div>
-                  <div class="field">
-                    <label>Email</label>
-                    <input type="email" placeholder="name@example.com" />
-                  </div>
-                </div>
 
-                <div class="two-col">
-                  <div class="field">
-                    <label>Phone number</label>
-                    <input type="tel" placeholder="+265 ..." />
-                  </div>
-                  <div class="field">
-                    <label>Occupation</label>
-                    <input type="text" placeholder="Occupation" />
-                  </div>
-                </div>
+<!-- ========================= LOANS ========================= -->
+<section id="loans">
+  <div class="container">
 
-                <div class="field">
-                  <label>Residential address</label>
-                  <textarea placeholder="Current home address"></textarea>
-                </div>
+    <div class="section-head">
+      <h2>Our Loan Products</h2>
+      <p>
+        Choose the lending product that best matches your financial needs.
+      </p>
+    </div>
 
-                <div class="two-col">
-                  <div class="field">
-                    <label>Monthly income</label>
-                    <input type="number" placeholder="MWK" />
-                  </div>
-                  <div class="field">
-                    <label>Loan amount required</label>
-                    <input type="number" placeholder="MWK" />
-                  </div>
-                </div>
+    <div class="cards">
 
-                <div class="field">
-                  <label>Property ownership</label>
-                  <select>
-                    <option>Own</option>
-                    <option>Rent</option>
-                    <option>Family property</option>
-                    <option>Other</option>
-                  </select>
-                </div>
+      <div class="card loan-card">
+        <div class="icon">💰</div>
 
-                <div class="field">
-                  <label>Valid KYC document upload</label>
-                  <input type="file" accept=".jpg,.jpeg,.png,.pdf" multiple />
-                </div>
+        <h3>Starter Loan</h3>
 
-                <div class="field">
-                  <label>National ID / Passport / Driving License</label>
-                  <input type="file" accept=".jpg,.jpeg,.png,.pdf" multiple />
-                </div>
+        <p>
+          A personal lending option designed for eligible customers
+          seeking short-term financial support.
+        </p>
 
-                <div class="check-row">
-                  <input type="checkbox" id="personal-policy" />
-                  <label for="personal-policy">I agree to the loan policy and terms.</label>
-                </div>
+        <span class="rate">25% Monthly</span>
 
-                <div style="margin-top:20px;">
-                  <button type="button" class="btn btn-primary">Submit application</button>
-                </div>
-              </form>
-            </div>
+        <br><br>
 
-            <div class="panel">
-              <h3>Business loan application</h3>
-              <form>
-                <div class="two-col">
-                  <div class="field">
-                    <label>Business name</label>
-                    <input type="text" placeholder="Business name" />
-                  </div>
-                  <div class="field">
-                    <label>Business registration</label>
-                    <input type="text" placeholder="Registration number" />
-                  </div>
-                </div>
+        <button
+          class="btn btn-primary"
+          onclick="selectLoan('personal')">
+          Apply for Starter Loan
+        </button>
+      </div>
 
-                <div class="two-col">
-                  <div class="field">
-                    <label>Business owner</label>
-                    <input type="text" placeholder="Owner full names" />
-                  </div>
-                  <div class="field">
-                    <label>Contact number</label>
-                    <input type="tel" placeholder="Phone number" />
-                  </div>
-                </div>
 
-                <div class="field">
-                  <label>Business address</label>
-                  <textarea placeholder="Physical business address"></textarea>
-                </div>
+      <div class="card loan-card">
+        <div class="icon">🏢</div>
 
-                <div class="two-col">
-                  <div class="field">
-                    <label>Monthly income</label>
-                    <input type="number" placeholder="MWK" />
-                  </div>
-                  <div class="field">
-                    <label>Loan amount required</label>
-                    <input type="number" placeholder="MWK" />
-                  </div>
-                </div>
+        <h3>Nthandizi Business Loan</h3>
 
-                <div class="field">
-                  <label>Business type</label>
-                  <select>
-                    <option>Retail</option>
-                    <option>Wholesale</option>
-                    <option>Transport</option>
-                    <option>Agriculture</option>
-                    <option>Service</option>
-                    <option>Other</option>
-                  </select>
-                </div>
+        <p>
+          Business financing designed to support business activities,
+          working capital and growth.
+        </p>
 
-                <div class="field">
-                  <label>Business details</label>
-                  <textarea placeholder="Describe the business operations and purpose of funding"></textarea>
-                </div>
+        <span class="rate">50% for 3 Months</span>
 
-                <div class="field">
-                  <label>Upload supporting documents</label>
-                  <input type="file" accept=".jpg,.jpeg,.png,.pdf" multiple />
-                </div>
+        <br><br>
 
-                <div class="field">
-                  <label>Next of kin details</label>
-                  <input type="text" placeholder="Name, relationship, phone" />
-                </div>
+        <button
+          class="btn btn-primary"
+          onclick="selectLoan('business')">
+          Apply for Nthandizi
+        </button>
+      </div>
 
-                <div class="check-row">
-                  <input type="checkbox" id="business-policy" />
-                  <label for="business-policy">I confirm all the information provided is true and accurate.</label>
-                </div>
 
-                <div style="margin-top:20px;">
-                  <button type="button" class="btn btn-primary">Submit business loan</button>
-                </div>
-              </form>
-            </div>
-          </div>
+      <div class="card loan-card">
+        <div class="icon">📋</div>
+
+        <h3>Flexible Application</h3>
+
+        <p>
+          Complete the online application and provide the required
+          information and supporting documentation.
+        </p>
+
+        <span class="rate">Secure Application</span>
+
+        <br><br>
+
+        <button
+          class="btn btn-primary"
+          onclick="document.getElementById('application').scrollIntoView()">
+          Start Application
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================= CALCULATORS ========================= -->
+<section id="calculators" style="background:#f7f9fc;">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Loan Calculators</h2>
+      <p>
+        Estimate your repayment amount before submitting your application.
+      </p>
+    </div>
+
+    <div class="calculator-grid">
+
+      <!-- PERSONAL CALCULATOR -->
+      <div class="calculator">
+
+        <h3>Starter Loan Calculator</h3>
+
+        <div class="field">
+          <label for="personalAmount">
+            Loan Amount (MWK)
+          </label>
+
+          <input
+            type="number"
+            id="personalAmount"
+            value="100000"
+            min="1"
+            oninput="calculatePersonalLoan()">
         </div>
-      </section>
 
-      <section class="section" id="dashboard">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Dashboards</h2>
-              <p>Customer and admin portals built to simplify loan operations and service delivery.</p>
-            </div>
-          </div>
+        <div class="field">
+          <label for="personalTerm">
+            Term (Months)
+          </label>
 
-          <div class="dashboard-wrap">
-            <div class="panel">
-              <h3>Customer dashboard</h3>
-              <div class="modules">
-                <div class="module"><strong>Home</strong><span>Overview and quick actions</span></div>
-                <div class="module"><strong>Account details</strong><span>Names, email, phone, KYC, next of kin</span></div>
-                <div class="module"><strong>Active loans</strong><span>Pending, approved, rejected with reasons</span></div>
-                <div class="module"><strong>Repayments</strong><span>Track due dates and balances</span></div>
-                <div class="module"><strong>Notifications</strong><span>Automatic service updates</span></div>
-                <div class="module"><strong>Transactions</strong><span>Payments and activity log</span></div>
-                <div class="module"><strong>Statements</strong><span>Financial summaries</span></div>
-                <div class="module"><strong>Loan schedules</strong><span>Calendar and reminder system</span></div>
-                <div class="module"><strong>Applications</strong><span>New and existing requests</span></div>
-                <div class="module"><strong>Ask for help</strong><span>AI chat assistant support</span></div>
-              </div>
-            </div>
-
-            <div class="panel">
-              <h3>Admin dashboard</h3>
-              <div class="modules">
-                <div class="module"><strong>Statistics</strong><span>Portfolio overview</span></div>
-                <div class="module"><strong>Follow ups</strong><span>Application tracking</span></div>
-                <div class="module"><strong>Loan disbursements</strong><span>Approved payouts</span></div>
-                <div class="module"><strong>Customers details</strong><span>Profiles and records</span></div>
-                <div class="module"><strong>Notifications</strong><span>Customer and system alerts</span></div>
-                <div class="module"><strong>Guarantors</strong><span>Security and reference data</span></div>
-                <div class="module"><strong>Reports</strong><span>Operational and financial summaries</span></div>
-                <div class="module"><strong>System settings</strong><span>Platform controls</span></div>
-                <div class="module"><strong>Analytics</strong><span>Daily, weekly, monthly, yearly reporting</span></div>
-                <div class="module"><strong>AI chat assistant</strong><span>Automated support and queries</span></div>
-              </div>
-            </div>
-          </div>
+          <select
+            id="personalTerm"
+            onchange="calculatePersonalLoan()">
+            <option value="1">1 Month</option>
+            <option value="2">2 Months</option>
+            <option value="3">3 Months</option>
+            <option value="4">4 Months</option>
+            <option value="5">5 Months</option>
+            <option value="6">6 Months</option>
+          </select>
         </div>
-      </section>
 
-      <section class="section" id="repayments">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Repayments</h2>
-              <p>Convenient, secure, and flexible payment channels.</p>
-            </div>
-          </div>
+        <div class="result">
+          <span>Total Repayment</span>
+          <strong id="personalTotal">MWK 125,000</strong>
 
-          <div class="payment-wrap">
-            <div class="panel">
-              <h3>Payment methods</h3>
-              <div class="payment-methods">
-                <div class="method">Mpamba</div>
-                <div class="method">AirtelMoney</div>
-                <div class="method">Bank Transfer</div>
-              </div>
-              <p style="margin-top:18px; color: var(--muted); line-height:1.8;">
-                Customers can repay through mobile money or bank transfer using approved account details and reference numbers provided after approval.
-              </p>
-            </div>
+          <br>
 
-            <div class="panel">
-              <h3>Record a repayment</h3>
-              <div class="field">
-                <label>Amount</label>
-                <input type="number" placeholder="Enter repayment amount" />
-              </div>
-              <div class="field">
-                <label>Method</label>
-                <select>
-                  <option>Mpamba</option>
-                  <option>AirtelMoney</option>
-                  <option>Bank transfer</option>
-                </select>
-              </div>
-              <button class="btn btn-primary">Record payment</button>
-            </div>
-          </div>
+          <span>Interest</span>
+          <strong
+            id="personalInterest"
+            style="font-size:18px;">
+            MWK 25,000
+          </strong>
         </div>
-      </section>
 
-      <section class="section" id="contact">
-        <div class="container contact-wrap">
-          <div class="panel">
-            <h3>Need help?</h3>
-            <div class="field">
-              <label>Name</label>
-              <input type="text" placeholder="Your full name" />
-            </div>
-            <div class="field">
-              <label>Email</label>
-              <input type="email" placeholder="name@example.com" />
-            </div>
-            <div class="field">
-              <label>Message</label>
-              <textarea placeholder="Tell us how we can help you"></textarea>
-            </div>
-            <button class="btn btn-primary">Send message</button>
-          </div>
+      </div>
 
-          <div class="panel">
-            <h3>Our promise</h3>
-            <p style="color: var(--muted); line-height:1.9;">
-              MILTON HOLDINGS LIMITED is committed to responsible lending, secure digital records, and meaningful customer support.
-              We combine professionalism with practical solutions for individuals and businesses seeking financial stability and growth.
-            </p>
 
-            <div class="module" style="margin-top:18px;">
-              <strong>Live chat support</strong>
-              <span>Available for application guidance and account support</span>
-            </div>
-            <div class="module" style="margin-top:12px;">
-              <strong>AI chat assistant</strong>
-              <span>Fast answers for product and policy queries</span>
-            </div>
-          </div>
+      <!-- BUSINESS CALCULATOR -->
+      <div class="calculator">
+
+        <h3>Nthandizi Business Calculator</h3>
+
+        <div class="field">
+          <label for="businessAmount">
+            Loan Amount (MWK)
+          </label>
+
+          <input
+            type="number"
+            id="businessAmount"
+            value="500000"
+            min="1"
+            oninput="calculateBusinessLoan()">
         </div>
-      </section>
-    </main>
 
-    <footer class="footer">
-      <div class="container footer-grid">
-        <div>
-          <div class="brand" style="color:white; margin-bottom:16px;">
-            <div class="brand-mark">M</div>
-            <div class="brand-text">
-              <span>MILTON HOLDINGS</span>
-              <small>LIMITED</small>
-            </div>
+        <div class="field">
+          <label for="businessTerm">
+            Term (Months)
+          </label>
+
+          <select
+            id="businessTerm"
+            onchange="calculateBusinessLoan()">
+            <option value="1">1 Month</option>
+            <option value="2">2 Months</option>
+            <option value="3" selected>3 Months</option>
+          </select>
+        </div>
+
+        <div class="result">
+          <span>Total Repayment</span>
+
+          <strong id="businessTotal">
+            MWK 750,000
+          </strong>
+
+          <br>
+
+          <span>Interest</span>
+
+          <strong
+            id="businessInterest"
+            style="font-size:18px;">
+            MWK 250,000
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================= APPLICATION ========================= -->
+<section id="application" class="form-section">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Loan Application</h2>
+
+      <p>
+        Complete the application form with accurate information.
+      </p>
+    </div>
+
+    <div class="form-container">
+
+      <div class="form-tabs">
+        <button
+          class="form-tab active"
+          id="personalTab"
+          onclick="showApplicationForm('personal')">
+          Personal Loan
+        </button>
+
+        <button
+          class="form-tab"
+          id="businessTab"
+          onclick="showApplicationForm('business')">
+          Business Loan
+        </button>
+      </div>
+
+
+      <!-- PERSONAL APPLICATION -->
+      <form
+        id="personalApplicationForm"
+        onsubmit="submitApplication(event,'personal')">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>Full Names *</label>
+            <input
+              type="text"
+              name="full_names"
+              required>
           </div>
-          <p style="color: rgba(255,255,255,0.72); line-height:1.8; max-width:430px;">
-            Delivering dependable lending solutions for personal goals, business expansion, and long-term financial confidence.
+
+          <div class="field">
+            <label>Email *</label>
+            <input
+              type="email"
+              name="email"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Phone Number *</label>
+            <input
+              type="tel"
+              name="phone"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Occupation *</label>
+            <input
+              type="text"
+              name="occupation"
+              required>
+          </div>
+
+          <div class="field full">
+            <label>Residential / Home Address *</label>
+            <textarea
+              name="residential_address"
+              required></textarea>
+          </div>
+
+          <div class="field">
+            <label>Monthly Income (MWK) *</label>
+            <input
+              type="number"
+              name="monthly_income"
+              min="0"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Requested Loan Amount (MWK) *</label>
+            <input
+              type="number"
+              name="requested_amount"
+              min="1"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Property Ownership *</label>
+            <select name="property_ownership" required>
+              <option value="">Select</option>
+              <option>Own property</option>
+              <option>Renting</option>
+              <option>Family property</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>KYC Document Type *</label>
+            <select name="kyc_type" required>
+              <option value="">Select</option>
+              <option>National ID</option>
+              <option>Driving Licence</option>
+              <option>Passport</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>KYC Document Number *</label>
+            <input
+              type="text"
+              name="kyc_document_number"
+              required>
+          </div>
+
+          <div class="field">
+            <label>KYC Document Upload *</label>
+            <input
+              type="file"
+              name="kyc_document"
+              accept=".jpg,.jpeg,.png,.pdf"
+              required>
+          </div>
+
+          <div class="field full">
+            <label>
+              Property Details / Chikole Service
+            </label>
+
+            <textarea
+              name="property_details"
+              placeholder="Provide property details where applicable"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Next of Kin Name *</label>
+            <input
+              type="text"
+              name="next_of_kin_name"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Next of Kin Phone *</label>
+            <input
+              type="tel"
+              name="next_of_kin_phone"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Relationship *</label>
+            <input
+              type="text"
+              name="next_of_kin_relationship"
+              required>
+          </div>
+
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" required>
+          <span>
+            I confirm that the information provided is accurate and I agree
+            to the MILTON HOLDINGS LIMITED loan policy and application terms.
+          </span>
+        </label>
+
+        <button
+          type="submit"
+          class="btn btn-primary">
+          Submit Personal Loan Application
+        </button>
+
+      </form>
+
+
+      <!-- BUSINESS APPLICATION -->
+      <form
+        id="businessApplicationForm"
+        style="display:none;"
+        onsubmit="submitApplication(event,'business')">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>Business Name *</label>
+            <input
+              type="text"
+              name="business_name"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Business Registration Number</label>
+            <input
+              type="text"
+              name="business_registration">
+          </div>
+
+          <div class="field">
+            <label>Business Owner / Applicant *</label>
+            <input
+              type="text"
+              name="owner_name"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Phone Number *</label>
+            <input
+              type="tel"
+              name="phone"
+              required>
+          </div>
+
+          <div class="field full">
+            <label>Business Address *</label>
+            <textarea
+              name="business_address"
+              required></textarea>
+          </div>
+
+          <div class="field">
+            <label>Business Monthly Income (MWK) *</label>
+            <input
+              type="number"
+              name="business_monthly_income"
+              min="0"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Requested Loan Amount (MWK) *</label>
+            <input
+              type="number"
+              name="requested_amount"
+              min="1"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Business Type *</label>
+            <input
+              type="text"
+              name="business_type"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Business Supporting Document</label>
+            <input
+              type="file"
+              name="supporting_document"
+              accept=".jpg,.jpeg,.png,.pdf">
+          </div>
+
+          <div class="field full">
+            <label>Business Details *</label>
+
+            <textarea
+              name="business_details"
+              required
+              placeholder="Describe your business, activities and intended use of the loan"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Next of Kin Name *</label>
+            <input
+              type="text"
+              name="next_of_kin_name"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Next of Kin Phone *</label>
+            <input
+              type="tel"
+              name="next_of_kin_phone"
+              required>
+          </div>
+
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" required>
+          <span>
+            I confirm that the information provided is accurate and I agree
+            to the MILTON HOLDINGS LIMITED loan policy and application terms.
+          </span>
+        </label>
+
+        <button
+          type="submit"
+          class="btn btn-primary">
+          Submit Business Loan Application
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================= DASHBOARD ========================= -->
+<section id="dashboard" class="dashboard">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Customer Dashboard</h2>
+
+      <p>
+        Manage your account, applications, repayments and notifications.
+      </p>
+    </div>
+
+    <div class="dashboard-grid">
+
+      <aside class="sidebar">
+
+        <h3>Customer Menu</h3>
+
+        <a href="#dashboard">🏠 Home</a>
+        <a href="#dashboard">👤 Account Details</a>
+        <a href="#dashboard">💰 Active Loans</a>
+        <a href="#repayments">💳 Repayments</a>
+        <a href="#dashboard">🔔 Notifications</a>
+        <a href="#dashboard">🔄 Transactions</a>
+        <a href="#dashboard">📄 Statements</a>
+        <a href="#dashboard">📅 Loan Schedules</a>
+        <a href="#application">📝 Applications</a>
+        <a href="#contact">💬 Ask for Help</a>
+
+      </aside>
+
+
+      <div class="dashboard-content">
+
+        <div class="welcome-box">
+
+          <h2 id="dashboardWelcome">
+            Welcome to your Customer Dashboard
+          </h2>
+
+          <p id="dashboardEmail">
+            Login to view your account information.
           </p>
+
         </div>
 
-        <div>
-          <h4>Quick links</h4>
-          <ul>
-            <li>Home</li>
-            <li>Loans</li>
-            <li>Calculators</li>
-            <li>Applications</li>
-          </ul>
+
+        <div class="stats">
+
+          <div class="stat-card">
+            <small>Active Loans</small>
+            <strong id="activeLoansCount">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Pending Applications</small>
+            <strong id="pendingApplicationsCount">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Total Repayments</small>
+            <strong id="totalRepayments">MWK 0</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Notifications</small>
+            <strong id="notificationsCount">0</strong>
+          </div>
+
         </div>
 
-        <div>
-          <h4>Contact</h4>
-          <ul>
-            <li>Email: support@miltonholdings.com</li>
-            <li>Phone: +265 999 000 000</li>
-            <li>Address: Lilongwe, Malawi</li>
-          </ul>
+
+        <div class="dashboard-panels">
+
+          <div class="panel">
+
+            <h3>Account Details</h3>
+
+            <p>
+              <strong>Name:</strong>
+              <span id="accountName">Not logged in</span>
+            </p>
+
+            <p>
+              <strong>Email:</strong>
+              <span id="accountEmail">Not logged in</span>
+            </p>
+
+            <p>
+              <strong>Phone:</strong>
+              <span id="accountPhone">Not available</span>
+            </p>
+
+            <p>
+              <strong>Account Number:</strong>
+              <span id="accountNumber">Not available</span>
+            </p>
+
+          </div>
+
+
+          <div class="panel">
+
+            <h3>Customer Services</h3>
+
+            <div class="module-list">
+
+              <div class="module">Loan Applications</div>
+              <div class="module">Active Loans</div>
+              <div class="module">Repayments</div>
+              <div class="module">Statements</div>
+              <div class="module">Transactions</div>
+              <div class="module">Notifications</div>
+              <div class="module">Loan Schedules</div>
+              <div class="module">Support Chat</div>
+
+            </div>
+
+          </div>
+
         </div>
+
       </div>
-    </footer>
+    </div>
+  </div>
+</section>
 
-    <script>
-      function calculatePersonalLoan() {
-        const amount = Number(document.getElementById('personal-amount').value) || 0;
-        const months = Number(document.getElementById('personal-months').value) || 1;
-        const monthlyInterest = amount * 0.25;
-        const totalPayable = amount + (monthlyInterest * months);
 
-        document.getElementById('personal-interest').textContent = 'MWK ' + formatCurrency(monthlyInterest);
-        document.getElementById('personal-total').textContent = 'MWK ' + formatCurrency(totalPayable);
+<!-- ========================= REPAYMENTS ========================= -->
+<section id="repayments">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Repayment Methods</h2>
+
+      <p>
+        Available repayment methods can be displayed here for customers.
+      </p>
+    </div>
+
+    <div class="payment-grid">
+
+      <div class="payment-card">
+        <div class="icon" style="margin:auto;">📱</div>
+        <h3>Mpamba</h3>
+        <p>
+          Repayments through Mpamba mobile money.
+        </p>
+      </div>
+
+      <div class="payment-card">
+        <div class="icon" style="margin:auto;">📱</div>
+        <h3>AirtelMoney</h3>
+        <p>
+          Repayments through AirtelMoney.
+        </p>
+      </div>
+
+      <div class="payment-card">
+        <div class="icon" style="margin:auto;">🏦</div>
+        <h3>Bank Transfer</h3>
+        <p>
+          Repayments through approved bank transfer channels.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========================= CONTACT ========================= -->
+<section id="contact" style="background:#f7f9fc;">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Contact & Support</h2>
+
+      <p>
+        Contact MILTON HOLDINGS LIMITED for assistance with your account
+        or loan application.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+
+      <div class="contact-info">
+
+        <h2>MILTON HOLDINGS LIMITED</h2>
+
+        <p>
+          Smart lending and financial services.
+        </p>
+
+        <div class="contact-item">
+          <strong>📞 Phone</strong>
+          <br>
+          Contact details will be added.
+        </div>
+
+        <div class="contact-item">
+          <strong>✉️ Email</strong>
+          <br>
+          Contact email will be added.
+        </div>
+
+        <div class="contact-item">
+          <strong>💬 Live Support</strong>
+          <br>
+          Customer support and chat will be connected in a later stage.
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>Send a Message</h3>
+
+        <div class="field">
+          <label>Your Name</label>
+          <input type="text" id="contactName">
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="contactEmail">
+        </div>
+
+        <div class="field">
+          <label>Message</label>
+          <textarea id="contactMessage"></textarea>
+        </div>
+
+        <button
+          class="btn btn-primary"
+          onclick="sendContactMessage()">
+          Send Message
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+        <h3>MILTON HOLDINGS LIMITED</h3>
+
+        <p>
+          Smart lending and financial services designed to provide
+          convenient digital access to loan services.
+        </p>
+      </div>
+
+      <div>
+        <h4>Quick Links</h4>
+
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#loans">Loans</a></li>
+          <li><a href="#calculators">Calculator</a></li>
+          <li><a href="#application">Apply</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Customer</h4>
+
+        <ul>
+          <li><a href="#dashboard">Dashboard</a></li>
+          <li><a href="#repayments">Repayments</a></li>
+          <li><a href="#contact">Support</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © <span id="currentYear"></span>
+      MILTON HOLDINGS LIMITED. All rights reserved.
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- ========================= AUTH MODAL ========================= -->
+<div class="modal" id="authModal">
+
+  <div class="modal-box">
+
+    <button
+      class="modal-close"
+      onclick="closeAuthModal()">
+      ×
+    </button>
+
+    <div class="modal-logo">MH</div>
+
+    <h2
+      class="modal-title"
+      id="authTitle">
+      Customer Login
+    </h2>
+
+    <p
+      class="modal-subtitle"
+      id="authSubtitle">
+      Login to access your MILTON HOLDINGS LIMITED account.
+    </p>
+
+    <div
+      id="authMessage"
+      class="auth-message">
+    </div>
+
+
+    <!-- LOGIN FORM -->
+    <form
+      id="loginForm"
+      onsubmit="loginCustomer(event)">
+
+      <div class="field">
+
+        <label>Email Address</label>
+
+        <input
+          type="email"
+          id="loginEmail"
+          autocomplete="email"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Password</label>
+
+        <input
+          type="password"
+          id="loginPassword"
+          autocomplete="current-password"
+          required>
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        style="width:100%;">
+        Login
+      </button>
+
+      <div class="auth-switch">
+
+        Don't have an account?
+
+        <button
+          type="button"
+          onclick="showRegisterForm()">
+          Create Account
+        </button>
+
+      </div>
+
+    </form>
+
+
+    <!-- REGISTER FORM -->
+    <form
+      id="registerForm"
+      style="display:none;"
+      onsubmit="registerCustomer(event)">
+
+      <div class="field">
+
+        <label>Full Names *</label>
+
+        <input
+          type="text"
+          id="registerName"
+          autocomplete="name"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Phone Number *</label>
+
+        <input
+          type="tel"
+          id="registerPhone"
+          autocomplete="tel"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Email Address *</label>
+
+        <input
+          type="email"
+          id="registerEmail"
+          autocomplete="email"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Password *</label>
+
+        <input
+          type="password"
+          id="registerPassword"
+          autocomplete="new-password"
+          minlength="6"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Confirm Password *</label>
+
+        <input
+          type="password"
+          id="registerPasswordConfirm"
+          autocomplete="new-password"
+          minlength="6"
+          required>
+
+      </div>
+
+
+      <label class="checkbox-row">
+
+        <input
+          type="checkbox"
+          required>
+
+        <span>
+          I agree to the account registration and applicable
+          MILTON HOLDINGS LIMITED terms.
+        </span>
+
+      </label>
+
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        style="width:100%;">
+        Create Customer Account
+      </button>
+
+
+      <div class="auth-switch">
+
+        Already have an account?
+
+        <button
+          type="button"
+          onclick="showLoginForm()">
+          Login
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- TOAST -->
+<div
+  class="toast"
+  id="toast">
+</div>
+
+
+<!-- ========================= JAVASCRIPT ========================= -->
+<script>
+
+  /* ============================================================
+     SUPABASE CONFIGURATION
+     ============================================================ */
+
+  const SUPABASE_URL =
+    "https://ziaqeqgzqeeokknmcref.supabase.co";
+
+  /*
+    IMPORTANT:
+    Replace the value below with your Supabase PUBLISHABLE KEY.
+
+    Do NOT put your service_role key here.
+  */
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+
+  let supabaseClient = null;
+
+
+  /*
+    Start Supabase only when a real key has been entered.
+  */
+
+  if (
+    window.supabase &&
+    SUPABASE_PUBLISHABLE_KEY &&
+    !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR")
+  ) {
+
+    supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+  }
+
+
+  /* ============================================================
+     BASIC FUNCTIONS
+     ============================================================ */
+
+  function formatCurrency(value){
+
+    return new Intl.NumberFormat("en-MW", {
+      style:"currency",
+      currency:"MWK",
+      maximumFractionDigits:0
+    }).format(Number(value) || 0);
+
+  }
+
+
+  function showToast(message){
+
+    const toast =
+      document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 4000);
+
+  }
+
+
+  function toggleMobileMenu(){
+
+    document
+      .getElementById("mobileNav")
+      .classList.toggle("show");
+
+  }
+
+
+  /* ============================================================
+     PERSONAL LOAN CALCULATOR
+     25% PER MONTH
+     ============================================================ */
+
+  function calculatePersonalLoan(){
+
+    const amount =
+      Number(
+        document.getElementById("personalAmount").value
+      ) || 0;
+
+    const term =
+      Number(
+        document.getElementById("personalTerm").value
+      ) || 1;
+
+    const interest =
+      amount * 0.25 * term;
+
+    const total =
+      amount + interest;
+
+    document.getElementById("personalInterest")
+      .textContent =
+      formatCurrency(interest);
+
+    document.getElementById("personalTotal")
+      .textContent =
+      formatCurrency(total);
+
+  }
+
+
+  /* ============================================================
+     BUSINESS LOAN CALCULATOR
+     50% OVER SELECTED TERM
+     ============================================================ */
+
+  function calculateBusinessLoan(){
+
+    const amount =
+      Number(
+        document.getElementById("businessAmount").value
+      ) || 0;
+
+    const term =
+      Number(
+        document.getElementById("businessTerm").value
+      ) || 1;
+
+    /*
+      Business loan rate is 50% for the 3-month product.
+      For this calculator the 50% rate is applied proportionally
+      to the selected term.
+    */
+
+    const interest =
+      amount * 0.50 * (term / 3);
+
+    const total =
+      amount + interest;
+
+    document.getElementById("businessInterest")
+      .textContent =
+      formatCurrency(interest);
+
+    document.getElementById("businessTotal")
+      .textContent =
+      formatCurrency(total);
+
+  }
+
+
+  /* ============================================================
+     APPLICATION FORM
+     ============================================================ */
+
+  function showApplicationForm(type){
+
+    const personalForm =
+      document.getElementById(
+        "personalApplicationForm"
+      );
+
+    const businessForm =
+      document.getElementById(
+        "businessApplicationForm"
+      );
+
+    const personalTab =
+      document.getElementById("personalTab");
+
+    const businessTab =
+      document.getElementById("businessTab");
+
+
+    if(type === "business"){
+
+      personalForm.style.display = "none";
+      businessForm.style.display = "block";
+
+      personalTab.classList.remove("active");
+      businessTab.classList.add("active");
+
+    }else{
+
+      personalForm.style.display = "block";
+      businessForm.style.display = "none";
+
+      personalTab.classList.add("active");
+      businessTab.classList.remove("active");
+
+    }
+
+  }
+
+
+  function selectLoan(type){
+
+    showApplicationForm(type);
+
+    document
+      .getElementById("application")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+  }
+
+
+  /* ============================================================
+     AUTH MODAL
+     ============================================================ */
+
+  function openAuthModal(mode = "login"){
+
+    document
+      .getElementById("authModal")
+      .classList.add("show");
+
+    clearAuthMessages();
+
+    if(mode === "register"){
+
+      showRegisterForm();
+
+    }else{
+
+      showLoginForm();
+
+    }
+
+  }
+
+
+  function closeAuthModal(){
+
+    document
+      .getElementById("authModal")
+      .classList.remove("show");
+
+  }
+
+
+  document
+    .getElementById("authModal")
+    .addEventListener("click", function(event){
+
+      if(event.target === this){
+
+        closeAuthModal();
+
       }
 
-      function calculateBusinessLoan() {
-        const amount = Number(document.getElementById('business-amount').value) || 0;
-        const months = Number(document.getElementById('business-months').value) || 3;
-        const totalDue = amount + (amount * 0.50);
-        const equivalentMonthly = totalDue / months;
+    });
 
-        document.getElementById('business-rate').textContent = '50% over ' + months + ' months';
-        document.getElementById('business-total').textContent = 'MWK ' + formatCurrency(totalDue);
-        document.getElementById('business-monthly').textContent = 'MWK ' + formatCurrency(equivalentMonthly);
+
+  function clearAuthMessages(){
+
+    const message =
+      document.getElementById("authMessage");
+
+    message.textContent = "";
+
+    message.className =
+      "auth-message";
+
+  }
+
+
+  function showAuthMessage(message,type){
+
+    const box =
+      document.getElementById("authMessage");
+
+    box.textContent = message;
+
+    box.className =
+      "auth-message " + type;
+
+  }
+
+
+  function showLoginForm(){
+
+    document
+      .getElementById("loginForm")
+      .style.display = "block";
+
+    document
+      .getElementById("registerForm")
+      .style.display = "none";
+
+    document
+      .getElementById("authTitle")
+      .textContent =
+      "Customer Login";
+
+    document
+      .getElementById("authSubtitle")
+      .textContent =
+      "Login to access your MILTON HOLDINGS LIMITED account.";
+
+    clearAuthMessages();
+
+  }
+
+
+  function showRegisterForm(){
+
+    document
+      .getElementById("loginForm")
+      .style.display = "none";
+
+    document
+      .getElementById("registerForm")
+      .style.display = "block";
+
+    document
+      .getElementById("authTitle")
+      .textContent =
+      "Create Customer Account";
+
+    document
+      .getElementById("authSubtitle")
+      .textContent =
+      "Create your secure MILTON HOLDINGS LIMITED account.";
+
+    clearAuthMessages();
+
+  }
+
+
+  /* ============================================================
+     CUSTOMER REGISTRATION
+     ============================================================ */
+
+  async function registerCustomer(event){
+
+    event.preventDefault();
+
+    clearAuthMessages();
+
+
+    if(!supabaseClient){
+
+      showAuthMessage(
+        "Supabase is not connected yet. Please enter your Supabase Publishable Key in the code.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const fullName =
+      document
+        .getElementById("registerName")
+        .value
+        .trim();
+
+    const phone =
+      document
+        .getElementById("registerPhone")
+        .value
+        .trim();
+
+    const email =
+      document
+        .getElementById("registerEmail")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("registerPassword")
+        .value;
+
+    const confirmPassword =
+      document
+        .getElementById("registerPasswordConfirm")
+        .value;
+
+
+    if(password !== confirmPassword){
+
+      showAuthMessage(
+        "The passwords do not match.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if(password.length < 6){
+
+      showAuthMessage(
+        "Password must contain at least 6 characters.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    showAuthMessage(
+      "Creating your account...",
+      "success"
+    );
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signUp({
+
+        email:email,
+
+        password:password,
+
+        options:{
+          data:{
+            full_name:fullName,
+            phone:phone
+          }
+        }
+
+      });
+
+
+      if(error){
+
+        throw error;
+
       }
 
-      function formatCurrency(value) {
-        return Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+      if(data.user){
+
+        /*
+          The database trigger created in Step 1A
+          should automatically create the profile.
+        */
+
+        if(data.session){
+
+          showAuthMessage(
+            "Account created successfully. You are now logged in.",
+            "success"
+          );
+
+          setTimeout(() => {
+
+            closeAuthModal();
+
+            loadCustomerSession();
+
+          },1200);
+
+        }else{
+
+          showAuthMessage(
+            "Account created successfully. Please check your email to confirm your account before logging in.",
+            "success"
+          );
+
+        }
+
       }
 
-      calculatePersonalLoan();
-      calculateBusinessLoan();
-    </script>
-  </body>
+    }catch(error){
+
+      console.error("Registration error:",error);
+
+      showAuthMessage(
+        error.message ||
+        "Unable to create your account.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* ============================================================
+     CUSTOMER LOGIN
+     ============================================================ */
+
+  async function loginCustomer(event){
+
+    event.preventDefault();
+
+    clearAuthMessages();
+
+
+    if(!supabaseClient){
+
+      showAuthMessage(
+        "Supabase is not connected yet. Please enter your Supabase Publishable Key in the code.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const email =
+      document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("loginPassword")
+        .value;
+
+
+    showAuthMessage(
+      "Signing you in...",
+      "success"
+    );
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email:email,
+
+        password:password
+
+      });
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showAuthMessage(
+        "Login successful.",
+        "success"
+      );
+
+
+      setTimeout(() => {
+
+        closeAuthModal();
+
+        loadCustomerSession();
+
+      },700);
+
+
+    }catch(error){
+
+      console.error("Login error:",error);
+
+      showAuthMessage(
+        error.message ||
+        "Unable to login.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* ============================================================
+     LOAD CURRENT CUSTOMER SESSION
+     ============================================================ */
+
+  async function loadCustomerSession(){
+
+    if(!supabaseClient){
+
+      updateLoginButton(null);
+
+      return;
+
+    }
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.getSession();
+
+
+      if(error){
+
+        console.error(error);
+
+        return;
+
+      }
+
+
+      const session =
+        data.session;
+
+
+      if(session && session.user){
+
+        await loadCustomerProfile(
+          session.user
+        );
+
+      }else{
+
+        window.miltonCustomer = null;
+
+        updateLoginButton(null);
+
+      }
+
+    }catch(error){
+
+      console.error(
+        "Session loading error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* ============================================================
+     LOAD CUSTOMER PROFILE
+     ============================================================ */
+
+  async function loadCustomerProfile(user){
+
+    if(!supabaseClient){
+
+      return;
+
+    }
+
+
+    try{
+
+      const {
+        data:profile,
+        error
+      } =
+      await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id",user.id)
+        .single();
+
+
+      if(error){
+
+        console.error(
+          "Profile loading error:",
+          error
+        );
+
+        /*
+          We still know the authenticated user.
+        */
+
+        window.miltonCustomer = {
+          id:user.id,
+          email:user.email,
+          full_name:
+            user.user_metadata?.full_name || "",
+          phone:
+            user.user_metadata?.phone || ""
+        };
+
+      }else{
+
+        window.miltonCustomer =
+          profile;
+
+      }
+
+
+      updateLoginButton(
+        window.miltonCustomer
+      );
+
+      updateCustomerDashboard(
+        window.miltonCustomer
+      );
+
+
+    }catch(error){
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  /* ============================================================
+     UPDATE LOGIN BUTTON
+     ============================================================ */
+
+  function updateLoginButton(profile){
+
+    const button =
+      document.getElementById("loginButton");
+
+
+    if(profile){
+
+      button.textContent =
+        "Logout";
+
+      button.className =
+        "btn btn-danger";
+
+      button.onclick =
+        logoutCustomer;
+
+    }else{
+
+      button.textContent =
+        "Login";
+
+      button.className =
+        "btn btn-secondary";
+
+      button.onclick =
+        () => openAuthModal("login");
+
+    }
+
+  }
+
+
+  /* ============================================================
+     LOGOUT
+     ============================================================ */
+
+  async function logoutCustomer(){
+
+    if(!supabaseClient){
+
+      return;
+
+    }
+
+
+    try{
+
+      const {
+        error
+      } =
+      await supabaseClient.auth.signOut();
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      window.miltonCustomer = null;
+
+      updateLoginButton(null);
+
+      updateCustomerDashboard(null);
+
+      showToast(
+        "You have been logged out."
+      );
+
+      window.location.hash =
+        "#home";
+
+
+    }catch(error){
+
+      console.error(
+        "Logout error:",
+        error
+      );
+
+      showToast(
+        "Unable to logout."
+      );
+
+    }
+
+  }
+
+
+  /* ============================================================
+     CUSTOMER DASHBOARD
+     ============================================================ */
+
+  function updateCustomerDashboard(profile){
+
+    if(!profile){
+
+      document
+        .getElementById("dashboardWelcome")
+        .textContent =
+        "Welcome to your Customer Dashboard";
+
+      document
+        .getElementById("dashboardEmail")
+        .textContent =
+        "Login to view your account information.";
+
+      document
+        .getElementById("accountName")
+        .textContent =
+        "Not logged in";
+
+      document
+        .getElementById("accountEmail")
+        .textContent =
+        "Not logged in";
+
+      document
+        .getElementById("accountPhone")
+        .textContent =
+        "Not available";
+
+      document
+        .getElementById("accountNumber")
+        .textContent =
+        "Not available";
+
+      return;
+
+    }
+
+
+    const name =
+      profile.full_name ||
+      profile.name ||
+      "Customer";
+
+
+    document
+      .getElementById("dashboardWelcome")
+      .textContent =
+      "Welcome, " + name;
+
+
+    document
+      .getElementById("dashboardEmail")
+      .textContent =
+      profile.email ||
+      "Customer account";
+
+
+    document
+      .getElementById("accountName")
+      .textContent =
+      name;
+
+
+    document
+      .getElementById("accountEmail")
+      .textContent =
+      profile.email ||
+      "Not available";
+
+
+    document
+      .getElementById("accountPhone")
+      .textContent =
+      profile.phone ||
+      "Not available";
+
+
+    document
+      .getElementById("accountNumber")
+      .textContent =
+      profile.account_number ||
+      "Generating...";
+
+  }
+
+
+  /* ============================================================
+     AUTH STATE LISTENER
+     ============================================================ */
+
+  if(supabaseClient){
+
+    supabaseClient.auth.onAuthStateChange(
+      async (event,session) => {
+
+        console.log(
+          "Supabase Auth Event:",
+          event
+        );
+
+
+        if(session && session.user){
+
+          /*
+            Avoid doing heavy work directly inside the
+            auth callback.
+          */
+
+          setTimeout(() => {
+
+            loadCustomerProfile(
+              session.user
+            );
+
+          },0);
+
+        }else{
+
+          window.miltonCustomer = null;
+
+          updateLoginButton(null);
+
+          updateCustomerDashboard(null);
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* ============================================================
+     LOAN APPLICATION SUBMISSION
+     ============================================================ */
+
+  async function submitApplication(event,type){
+
+    event.preventDefault();
+
+
+    if(!supabaseClient){
+
+      showToast(
+        "Supabase is not connected. Add your Publishable Key first."
+      );
+
+      return;
+
+    }
+
+
+    const {
+      data:{
+        session
+      }
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(!session){
+
+      showToast(
+        "Please login or create a customer account before submitting your application."
+      );
+
+      openAuthModal("login");
+
+      return;
+
+    }
+
+
+    /*
+      Step 1B only establishes authentication.
+
+      Loan application database submission will be connected
+      in the next stage after authentication has been tested.
+    */
+
+    showToast(
+      "Your account is ready. Loan application connection will be enabled in the next step."
+    );
+
+  }
+
+
+  /* ============================================================
+     CONTACT MESSAGE
+     ============================================================ */
+
+  function sendContactMessage(){
+
+    const name =
+      document.getElementById("contactName").value.trim();
+
+    const email =
+      document.getElementById("contactEmail").value.trim();
+
+    const message =
+      document.getElementById("contactMessage").value.trim();
+
+
+    if(!name || !email || !message){
+
+      showToast(
+        "Please complete all contact fields."
+      );
+
+      return;
+
+    }
+
+
+    showToast(
+      "Your message has been prepared. Live contact connection will be added in a later step."
+    );
+
+  }
+
+
+  /* ============================================================
+     PAGE STARTUP
+     ============================================================ */
+
+  document
+    .getElementById("currentYear")
+    .textContent =
+    new Date().getFullYear();
+
+
+  calculatePersonalLoan();
+
+  calculateBusinessLoan();
+
+  loadCustomerSession();
+
+
+</script>
+
+</body>
 </html>
