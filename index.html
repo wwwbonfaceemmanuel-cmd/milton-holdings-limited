@@ -1146,7 +1146,32 @@ async function sbUpload(bucket,userId,file){if(!file||!file.name)return null;con
 function formToObject(f){const o={};Array.from(f.elements).forEach(el=>{if(!el.name||el.type==='file'||el.type==='checkbox'||el.type==='radio'||el.disabled)return;o[el.name]=String(el.value||'').trim()});return o}
 async function remoteRefresh(){try{const me=await sbLoad();CU=me?DB.users.find(x=>x.id===me.id)||mapProfile(me):null;if(CU&&CU.status==='suspended'){await sb.auth.signOut();CU=null;sessionStorage.removeItem(SS_KEY);showPublic();return}return CU}catch(e){console.error(e);toast('Supabase sync error: '+e.message,'error');return CU}}
 async function remoteLogin(email,password){const {data,error}=await sb.auth.signInWithPassword({email:email.trim(),password});if(error)throw error;const me=await remoteRefresh();if(!me)throw new Error('Profile not found.');sessionStorage.setItem(SS_KEY,me.id);return me}
-async function remoteRegister(name,email,phone,district,area,password){const {data,error}=await sb.auth.signUp({email:email.trim(),password});if(error)throw error;if(!data.user)throw new Error('Registration could not be completed.');const {error:pe}=await sb.from('profiles').upsert({id:data.user.id,role:'customer',full_name:name.trim(),email:email.trim(),phone:phone.trim(),district,area,status:'active'},{onConflict:'id'});if(pe)throw pe;const me=await remoteRefresh();sessionStorage.setItem(SS_KEY,data.user.id);return me}
+async function remoteRegister(name,email,phone,district,area,password){
+ const cleanEmail=email.trim().toLowerCase();
+ const {data,error}=await sb.auth.signUp({
+   email:cleanEmail,
+   password,
+   options:{data:{full_name:name.trim(),phone:phone.trim(),district:district||'',area:area||''}}
+ });
+ if(error)throw error;
+ if(!data.user)throw new Error('Registration could not be completed.');
+ if(!data.session)throw new Error('Account created, but email confirmation is required. Confirm your email, then log in.');
+ // handle_new_user() creates the profile. Do NOT upsert a new profile here;
+ // that was causing the profiles RLS error. Update only the fields owned by this user.
+ const {error:pe}=await sb.from('profiles').update({
+   full_name:name.trim(),
+   email:cleanEmail,
+   phone:phone.trim(),
+   district:district||null,
+   area:area||null,
+   status:'active'
+ }).eq('id',data.user.id);
+ if(pe)throw pe;
+ const me=await remoteRefresh();
+ if(!me)throw new Error('Registration succeeded, but your customer profile could not be loaded.');
+ sessionStorage.setItem(SS_KEY,data.user.id);
+ return me;
+}
 function overrideSave(){save=function(){localCache()};load=function(){try{return JSON.parse(localStorage.getItem(LS_KEY))}catch(e){return null}}}
 overrideSave();
 
