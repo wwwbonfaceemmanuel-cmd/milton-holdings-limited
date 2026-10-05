@@ -1172,6 +1172,7 @@ async function remoteRegister(name,email,phone,district,area,password){
  sessionStorage.setItem(SS_KEY,data.user.id);
  return me;
 }
+ 
 function overrideSave(){save=function(){localCache()};load=function(){try{return JSON.parse(localStorage.getItem(LS_KEY))}catch(e){return null}}}
 overrideSave();
 
