@@ -6,7 +6,7 @@
 
 const MHL_SUPABASE_URL = 'https://lgftgochlcbakovdhmhb.supabase.co';
 
-const MHL_SUPABASE_KEY = 'PASTE_YOUR_EXISTING_ANON_KEY_HERE';
+const MHL_SUPABASE_KEY = 'PASTE_THE_SAME_ANON_KEY_FROM_YOUR_WORKING_INDEX_HTML';
 
 const sb = window.supabase.createClient(
     MHL_SUPABASE_URL,
