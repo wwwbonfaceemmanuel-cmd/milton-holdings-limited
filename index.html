@@ -255,110 +255,130 @@
 
 
         /* ==========================================================
-           06. MAIN NAVIGATION
-        ========================================================== */
+   06. MAIN NAVIGATION
+========================================================== */
 
-        nav.mainnav {
-            background: #fff;
+nav.mainnav {
+    background:
+        linear-gradient(
+            135deg,
+            var(--navy),
+            var(--navy2)
+        );
 
-            position: sticky;
-            top: 0;
-            z-index: 50;
+    position: sticky;
 
-            box-shadow:
-                0 2px 12px
-                rgba(0, 0, 0, 0.06);
-        }
+    top: 0;
 
-        nav.mainnav .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+    z-index: 50;
 
-            height: 76px;
-        }
+    box-shadow:
+        0 4px 18px
+        rgba(11, 31, 58, 0.22);
+}
 
+nav.mainnav .container {
+    display: flex;
 
-        /* ==========================================================
-           07. BRAND / LOGO
-        ========================================================== */
+    align-items: center;
 
-        .brand {
-            display: flex;
-            align-items: center;
+    justify-content: space-between;
 
-            gap: 11px;
-            cursor: pointer;
-        }
-
-        .brand .bt {
-            line-height: 1.05;
-        }
-
-        .brand .bt b {
-            display: block;
-
-            font-size: 21px;
-            font-weight: 800;
-
-            color: var(--navy);
-
-            letter-spacing: 3px;
-        }
-
-        .brand .bt small {
-            display: block;
-
-            font-size: 9.5px;
-            letter-spacing: 3.3px;
-
-            color: var(--gold);
-
-            font-weight: 700;
-
-            margin-top: 3px;
-        }
-
-        .brand.light .bt b {
-            color: #fff;
-        }
+    height: 76px;
+}
 
 
-        /* ==========================================================
-           08. NAVIGATION LINKS
-        ========================================================== */
+/* ==========================================================
+   07. BRAND / LOGO
+========================================================== */
 
-        .navlinks {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-        }
+.brand {
+    display: flex;
 
-        .navlinks a {
-            font-weight: 500;
-            color: #334155;
-            font-size: 14px;
-        }
+    align-items: center;
 
-        .navlinks a:hover {
-            color: var(--gold);
-        }
+    gap: 11px;
+
+    cursor: pointer;
+}
+
+.brand .bt {
+    line-height: 1.05;
+}
+
+.brand .bt b {
+    display: block;
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    color: #fff;
+
+    letter-spacing: 3px;
+}
+
+.brand .bt small {
+    display: block;
+
+    font-size: 9.5px;
+
+    letter-spacing: 3.3px;
+
+    color: var(--gold2);
+
+    font-weight: 700;
+
+    margin-top: 3px;
+}
+
+.brand.light .bt b {
+    color: #fff;
+}
 
 
-        /* ==========================================================
-           09. MOBILE MENU BUTTON
-        ========================================================== */
+/* ==========================================================
+   08. NAVIGATION LINKS
+========================================================== */
 
-        .hamb {
-            display: none;
+.navlinks {
+    display: flex;
 
-            background: none;
-            border: none;
+    align-items: center;
 
-            font-size: 26px;
-            color: var(--navy);
-        }
+    gap: 22px;
+}
 
+.navlinks a {
+    font-weight: 500;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.navlinks a:hover {
+    color: var(--gold2);
+}
+
+
+/* ==========================================================
+   09. MOBILE MENU BUTTON
+========================================================== */
+
+.hamb {
+    display: none;
+
+    background: none;
+
+    border: none;
+
+    font-size: 26px;
+
+    color: #fff;
+}
 
         /* ==========================================================
            10. HERO SECTION
