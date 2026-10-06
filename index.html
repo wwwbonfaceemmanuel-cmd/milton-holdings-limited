@@ -1097,10 +1097,7 @@ function addAdmin(e){e.preventDefault();const f=e.target;if(DB.users.some(u=>u.e
    SUPABASE CONNECTION LAYER — preserves the existing UI
    Uses only the browser-safe anon/publishable key.
 ========================================================= */
-const MHL_SUPABASE_URL='https://lgftgochlcbakovdhmhb.supabase.co';
-const MHL_SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnZnRnb2NobGNiYWtvdmRobWhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMzQzMzUsImV4cCI6MjEwNjcxMDMzNX0.rjBFbcv3OFv_34dMZaCxlqWPxSmjiPAGYv6V-28IoYk';
-const sb=window.supabase.createClient(MHL_SUPABASE_URL,MHL_SUPABASE_KEY);
-let MHL_REMOTE=true;
+
 function localCache(){try{localStorage.setItem(LS_KEY,JSON.stringify(DB))}catch(e){}}
 function isoMs(v){return v?new Date(v).getTime():null}
 function mapSettings(r){return Object.assign({},DEFAULT_SETTINGS,{personalRate:r.personal_rate??DEFAULT_SETTINGS.personalRate,personalMaxTerm:r.personal_max_term??DEFAULT_SETTINGS.personalMaxTerm,personalMin:r.personal_min_amount??DEFAULT_SETTINGS.personalMin,personalMax:r.personal_max_amount??DEFAULT_SETTINGS.personalMax,businessRate:r.business_rate??DEFAULT_SETTINGS.businessRate,businessTerm:r.business_term??DEFAULT_SETTINGS.businessTerm,businessMin:r.business_min_amount??DEFAULT_SETTINGS.businessMin,businessMax:r.business_max_amount??DEFAULT_SETTINGS.businessMax,penaltyRate:r.penalty_rate??DEFAULT_SETTINGS.penaltyRate,openingCapital:r.opening_capital??DEFAULT_SETTINGS.openingCapital,mpambaNumber:r.mpamba_number??DEFAULT_SETTINGS.mpambaNumber,mpambaName:r.mpamba_name??DEFAULT_SETTINGS.mpambaName,bankName:r.bank_name??DEFAULT_SETTINGS.bankName,bankAccount:r.bank_account??DEFAULT_SETTINGS.bankAccount,bankAccName:r.bank_account_name??DEFAULT_SETTINGS.bankAccName,bankBranch:r.bank_branch??DEFAULT_SETTINGS.bankBranch,companyPhone:r.company_phone??DEFAULT_SETTINGS.companyPhone,companyEmail:r.company_email??DEFAULT_SETTINGS.companyEmail,address:r.company_address??DEFAULT_SETTINGS.address,autoReminders:r.auto_reminders??DEFAULT_SETTINGS.autoReminders,airtelNumber:r.airtel_number||((r.metadata||{}).airtelNumber)||'',airtelName:r.airtel_name||((r.metadata||{}).airtelName)||'MILTON HOLDINGS LIMITED'} )}
