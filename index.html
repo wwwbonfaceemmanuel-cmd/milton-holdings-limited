@@ -975,7 +975,9 @@ window.addEventListener('storage',e=>{if(e.key!==LS_KEY)return;const d=load();if
  sb.auth.onAuthStateChange(async(event,user)=>{if(event==='SIGNED_OUT'){CU=null;sessionStorage.removeItem(SS_KEY);showPublic()} });
  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()})})();
 </script>
+ 
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>
+ 
 </body>
 </html>
