@@ -706,6 +706,59 @@ async function updateRecoveredPassword(e){
     }
 }
 
+/* ---------- recovery session fallback ---------- */
+/*
+   Handles recovery links when PASSWORD_RECOVERY
+   was triggered before auth.js finished loading.
+*/
+
+(function recoverySessionFallback(){
+
+    if(!window.sb || !sb.auth) return;
+
+    setTimeout(async function(){
+
+        try{
+
+            const {data,error} =
+                await sb.auth.getSession();
+
+            if(error) return;
+
+            if(data && data.session){
+
+                const url =
+                    window.location.href.toLowerCase();
+
+                const isRecovery =
+                    url.includes('type=recovery') ||
+                    url.includes('recovery=1');
+
+                if(isRecovery){
+
+                    setTimeout(function(){
+
+                        openUpdatePassword();
+
+                    },150);
+
+                }
+
+            }
+
+        }catch(err){
+
+            console.error(
+                'Recovery fallback:',
+                err
+            );
+
+        }
+
+    },500);
+
+})();
+
 
 /* =========================================================
    PASSWORD RECOVERY LISTENER
