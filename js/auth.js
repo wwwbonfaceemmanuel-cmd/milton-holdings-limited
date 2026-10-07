@@ -24,12 +24,127 @@ function openAuth(mode,role){role=role||'customer';$('mobMenu').classList.remove
  <div class="alert alert-blue" style="margin-top:14px;margin-bottom:0"><b>Demo accounts</b><br>Customer: demo@milton.mw / demo123<br>Admin: admin@milton.mw / admin123</div>
  <p style="text-align:center;margin-top:12px;font-size:13px">New customer? <a href="javascript:openAuth('register')" style="color:var(--gold);font-weight:600">Create an account</a></p></form>`)}
 function setLoginRole(r){$('lgRole').value=r;$('lgC').classList.toggle('active',r==='customer');$('lgA').classList.toggle('active',r==='admin');$('lgEmail').value=r==='admin'?'admin@milton.mw':'demo@milton.mw';$('lgPw').value=r==='admin'?'admin123':'demo123'}
-function doLogin(e){e.preventDefault();const f=e.target;const u=DB.users.find(x=>x.email.toLowerCase()===f.email.value.trim().toLowerCase()&&x.password===f.password.value&&x.role===f.role.value);
- if(!u)return toast('❌ Invalid email, password or account type.','error');if(u.status==='suspended')return toast('🚫 This account is suspended. Please contact support.','error');
- CU=u;sessionStorage.setItem(SS_KEY,u.id);u.lastLogin=Date.now();audit('Logged in');save();closeModal();toast('Welcome back, '+esc(u.name.split(' ')[0])+'! 👋');enterApp();if(window._pendingApply&&u.role==='customer'){go('apply',{type:window._pendingApply});window._pendingApply=null}}
-function doRegister(e){e.preventDefault();const f=e.target;if(f.password.value!==f.password2.value)return toast('Passwords do not match','error');
- if(DB.users.some(u=>u.email.toLowerCase()===f.email.value.trim().toLowerCase()))return toast('An account with that email already exists','error');
- const u={id:uid('u'),role:'customer',name:f.name.value.trim(),email:f.email.value.trim(),password:f.password.value,phone:f.phone.value.trim(),altPhone:'',dob:'',gender:'',nationalId:'',occupation:'',address:{district:f.district.value,area:f.area.value.trim(),house:'',ta:''},nok:{name:'',relation:'',phone:'',address:''},kyc:[],accountNo:newAccountNo(),createdAt:Date.now(),status:'active'};
- DB.users.push(u);notify(u.id,'Welcome to MILTON HOLDINGS 👋',`Your account ${u.accountNo} has been created. Complete your profile and KYC to apply for a loan.`,'👋');notify('admin','New Customer Registered',`${u.name} (${u.phone}) created account ${u.accountNo}.`,'👤');
- CU=u;sessionStorage.setItem(SS_KEY,u.id);audit('Registered new account');save();closeModal();toast('🎉 Account created! Your account number is '+u.accountNo);enterApp();if(window._pendingApply){go('apply',{type:window._pendingApply});window._pendingApply=null}}
-function logout(){audit('Logged out');save();CU=null;sessionStorage.removeItem(SS_KEY);showPublic();toast('You have been logged out.','info')}
+/* ---------- Supabase auth ---------- */
+
+async function doLogin(e){
+    e.preventDefault();
+
+    const f=e.target;
+
+    try{
+        const me=await remoteLogin(
+            f.email.value,
+            f.password.value
+        );
+
+        if(f.role.value!==me.role){
+            return toast(
+                '❌ Invalid account type selected.',
+                'error'
+            );
+        }
+
+        if(me.status==='suspended'){
+            return toast(
+                '🚫 This account is suspended.',
+                'error'
+            );
+        }
+
+        CU=me;
+
+        closeModal();
+
+        toast(
+            'Welcome back, '+
+            esc((me.name||'Customer').split(' ')[0])+
+            '! 👋'
+        );
+
+        enterApp();
+
+        if(window._pendingApply&&me.role==='customer'){
+            go('apply',{type:window._pendingApply});
+            window._pendingApply=null;
+        }
+
+    }catch(err){
+
+        toast(
+            '❌ '+(err.message||'Login failed'),
+            'error'
+        );
+    }
+}
+
+
+async function doRegister(e){
+    e.preventDefault();
+
+    const f=e.target;
+
+    if(f.password.value!==f.password2.value){
+        return toast(
+            'Passwords do not match',
+            'error'
+        );
+    }
+
+    try{
+
+        const me=await remoteRegister(
+            f.name.value,
+            f.email.value,
+            f.phone.value,
+            f.district.value,
+            f.area.value,
+            f.password.value
+        );
+
+        CU=me;
+
+        closeModal();
+
+        toast(
+            '🎉 Account created! Your account number is '+
+            (me.accountNo||'')
+        );
+
+        enterApp();
+
+        if(window._pendingApply){
+            go('apply',{
+                type:window._pendingApply
+            });
+
+            window._pendingApply=null;
+        }
+
+    }catch(err){
+
+        toast(
+            '❌ Registration failed: '+
+            err.message,
+            'error'
+        );
+    }
+}
+
+
+async function logout(){
+
+    try{
+        await sb.auth.signOut();
+    }catch(e){}
+
+    CU=null;
+
+    sessionStorage.removeItem(SS_KEY);
+
+    showPublic();
+
+    toast(
+        'You have been logged out.',
+        'info'
+    );
+}
